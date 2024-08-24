@@ -1,12 +1,12 @@
 package com.globant.model;
 
 public class User {
-    private final String uniqueID;
+    private final Integer uniqueID;
     private final String name;
     private String email;
     private String password;
 
-    public User(String uniqueID, String name, String email, String password) {
+    public User(Integer uniqueID, String name, String email, String password) {
         this.uniqueID = uniqueID;
         this.name = name;
         this.email = email;
@@ -15,5 +15,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

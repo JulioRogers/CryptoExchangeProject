@@ -12,10 +12,8 @@ public class InMemoryUsersStorage implements UsersStorage {
     private int counter = 0;
 
     @Override
-    public Integer saveUser(User user) {
-        int uniqueId = counter++;
+    public void saveUser(Integer uniqueId, User user) {
         users.put(uniqueId, user);
-        return uniqueId;
     }
 
     @Override
@@ -33,5 +31,11 @@ public class InMemoryUsersStorage implements UsersStorage {
         return Optional.ofNullable(users.get(id))
                 .orElseThrow(() -> new UnknownAccountException("User with ID " + id + " not found."));
 
+    }
+
+    @Override
+    public Integer generateUniqueId() {
+        counter++;
+        return counter;
     }
 }
