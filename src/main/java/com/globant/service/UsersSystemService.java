@@ -23,7 +23,7 @@ public class UsersSystemService {
         if (!isValidEmail(email)) {
             throw new InvalidEmailFormatException("Invalid email format");
         }
-        if (usersStorage.getUserByEmail(email) != null) {
+        if (usersStorage.getUserByEmail(email).isPresent()) {
             throw new DuplicateEmailException("Email already used");
         }
 
@@ -42,11 +42,12 @@ public class UsersSystemService {
     }
 
     public boolean validateUser(String email, String password) {
-        User user = usersStorage.getUserByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return true;
-        } else {
-            throw new UnknownAccountException("Invalid email or password.");
+        if (!isValidEmail(email)) {
+            throw new InvalidEmailFormatException("Invalid email format");
         }
+
+        User user = usersStorage.getUserByEmail(email).orElseThrow(()->new UnknownAccountException("Email not found"));
+
+        return user.getPassword().equals(password);
     }
 }
