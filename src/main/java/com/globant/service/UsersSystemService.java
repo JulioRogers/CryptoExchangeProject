@@ -4,15 +4,25 @@ import com.globant.model.User;
 import com.globant.storage.UnknownAccountException;
 import com.globant.storage.UsersStorage;
 
+import java.text.MessageFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UsersSystemService {
 
     private final UsersStorage usersStorage;
+    private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    private final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+
 
     public UsersSystemService(UsersStorage usersStorage) {
         this.usersStorage = usersStorage;
     }
 
-    public Integer createUser(String name, String email, String password) {
+    public String createUser(String name, String email, String password) {
+        if (!isValidEmail(email)) {
+            throw new InvalidEmailFormatException("Invalid email format");
+        }
         if (usersStorage.getUserByEmail(email) != null) {
             throw new DuplicateEmailException("Email already used");
         }
@@ -23,7 +33,12 @@ public class UsersSystemService {
 
         usersStorage.saveUser(userId,user);
 
-        return userId;
+        return MessageFormat.format("This is your User Id:{0}", userId);
+    }
+
+    private boolean isValidEmail(String email) {
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     public boolean validateUser(String email, String password) {
@@ -34,13 +49,4 @@ public class UsersSystemService {
             throw new UnknownAccountException("Invalid email or password.");
         }
     }
-
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public User getUserById(Integer userId) {
-        return userRepository.findById(userId);
-    }
-
 }
