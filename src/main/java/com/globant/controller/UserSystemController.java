@@ -11,23 +11,19 @@ import com.globant.view.ConsoleView;
 public class UserSystemController {
     private final UsersSystemService usersSystemService;
     private final ConsoleView view;
-    private final SessionService sessionService;
 
-    public UserSystemController(ConsoleView view, UsersSystemService usersSystemService, SessionService sessionService) {
+    public UserSystemController(ConsoleView view, UsersSystemService usersSystemService) {
         this.view = view;
         this.usersSystemService = usersSystemService;
-        this.sessionService = sessionService;
     }
 
     public void createUser() {
-
         String name = view.getNameInput();
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
         try {
             String userCreationMessage = usersSystemService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
-
         } catch (InvalidEmailFormatException | DuplicateEmailException e){
             view.showError(e.getMessage());
         }
@@ -38,20 +34,13 @@ public class UserSystemController {
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
         try{
-            boolean isValid = usersSystemService.validateUser(email, password);
-            if(isValid){
-                User user = usersSystemService.getUserbyEmail(email);
-                sessionService.login(user);
-                view.showSuccessMessage("User successfully logged in");
-            } else{
-                view.showError("Incorrect Password");
-            }
-        } catch (InvalidEmailFormatException | UnknownAccountException e){
+            view.showInfo(usersSystemService.login(email, password));
+        } catch (UnknownAccountException e){
             view.showError(e.getMessage());
         }
     }
 
     public void logout() {
-        sessionService.logout();
+        view.showInfo(usersSystemService.logout());
     }
 }
