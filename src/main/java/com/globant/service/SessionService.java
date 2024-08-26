@@ -5,17 +5,15 @@ import com.globant.storage.UnknownAccountException;
 import com.globant.storage.UsersStorage;
 
 import java.text.MessageFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class UsersSystemService {
+public class SessionService {
 
     private final UsersStorage usersStorage;
     private User currentUser;
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 
 
-    public UsersSystemService(UsersStorage usersStorage) {
+    public SessionService(UsersStorage usersStorage) {
         this.usersStorage = usersStorage;
     }
 

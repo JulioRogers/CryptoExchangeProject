@@ -1,7 +1,7 @@
 package com.globant;
 
-import com.globant.controller.UserSystemController;
-import com.globant.service.UsersSystemService;
+import com.globant.controller.SessionController;
+import com.globant.service.SessionService;
 import com.globant.storage.InMemoryUsersStorage;
 import com.globant.view.ConsoleView;
 
@@ -10,21 +10,21 @@ import com.globant.view.ConsoleView;
 public class Main {
     public static void main(String[] args) {
         InMemoryUsersStorage storage = new InMemoryUsersStorage();
-        UsersSystemService usersSystemService = new UsersSystemService(storage);
+        SessionService sessionService = new SessionService(storage);
         ConsoleView consoleView = new ConsoleView();
-        UserSystemController userSystemController = new UserSystemController(consoleView, usersSystemService);
+        SessionController sessionController = new SessionController(consoleView, sessionService);
 
         while (true) {
             int choice = consoleView.getUserChoice();
             switch (choice) {
                 case 1:
-                    userSystemController.createUser();
+                    sessionController.createUser();
                     break;
                 case 2:
-                    userSystemController.login();
+                    sessionController.login();
                     break;
                 case 3:
-                    userSystemController.logout();
+                    sessionController.logout();
                     break;
                 case 4:
                     System.exit(0);

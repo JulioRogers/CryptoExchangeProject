@@ -2,17 +2,17 @@ package com.globant.controller;
 
 import com.globant.service.DuplicateEmailException;
 import com.globant.service.InvalidEmailFormatException;
-import com.globant.service.UsersSystemService;
+import com.globant.service.SessionService;
 import com.globant.storage.UnknownAccountException;
 import com.globant.view.ConsoleView;
 
-public class UserSystemController {
-    private final UsersSystemService usersSystemService;
+public class SessionController {
+    private final SessionService sessionService;
     private final ConsoleView view;
 
-    public UserSystemController(ConsoleView view, UsersSystemService usersSystemService) {
+    public SessionController(ConsoleView view, SessionService sessionService) {
         this.view = view;
-        this.usersSystemService = usersSystemService;
+        this.sessionService = sessionService;
     }
 
     public void createUser() {
@@ -20,7 +20,7 @@ public class UserSystemController {
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
         try {
-            String userCreationMessage = usersSystemService.createUser(name, email, password);
+            String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
         } catch (InvalidEmailFormatException | DuplicateEmailException e){
             view.showError(e.getMessage());
@@ -32,13 +32,13 @@ public class UserSystemController {
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
         try{
-            view.showInfo(usersSystemService.login(email, password));
+            view.showInfo(sessionService.login(email, password));
         } catch (UnknownAccountException e){
             view.showError(e.getMessage());
         }
     }
 
     public void logout() {
-        view.showInfo(usersSystemService.logout());
+        view.showInfo(sessionService.logout());
     }
 }
