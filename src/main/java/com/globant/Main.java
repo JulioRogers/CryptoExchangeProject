@@ -1,6 +1,7 @@
 package com.globant;
 
 import com.globant.controller.UserSystemController;
+import com.globant.service.SessionService;
 import com.globant.service.UsersSystemService;
 import com.globant.storage.InMemoryUsersStorage;
 import com.globant.view.ConsoleView;
@@ -12,7 +13,8 @@ public class Main {
         InMemoryUsersStorage storage = new InMemoryUsersStorage();
         UsersSystemService usersSystemService = new UsersSystemService(storage);
         ConsoleView consoleView = new ConsoleView();
-        UserSystemController userSystemController = new UserSystemController(consoleView, usersSystemService);
+        SessionService sessionService = new SessionService();
+        UserSystemController userSystemController = new UserSystemController(consoleView, usersSystemService, sessionService);
 
         while (true) {
             int choice = consoleView.getUserChoice();

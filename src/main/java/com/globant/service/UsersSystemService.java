@@ -50,4 +50,8 @@ public class UsersSystemService {
 
         return user.getPassword().equals(password);
     }
+
+    public User getUserbyEmail(String email) {
+        return usersStorage.getUserByEmail(email).orElseThrow(() -> new UnknownAccountException("Email not found."));
+    }
 }

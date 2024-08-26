@@ -3,8 +3,8 @@ package com.globant.model;
 public class User {
     private final Integer uniqueID;
     private final String name;
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 
     public User(Integer uniqueID, String name, String email, String password) {
         this.uniqueID = uniqueID;
