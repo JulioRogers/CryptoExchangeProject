@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 public class UsersSystemService {
 
     private final UsersStorage usersStorage;
+    private User currentUser;
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-    private final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
 
     public UsersSystemService(UsersStorage usersStorage) {
@@ -36,22 +36,24 @@ public class UsersSystemService {
         return MessageFormat.format("This is your User Id:{0}", userId);
     }
 
-    private boolean isValidEmail(String email) {
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    public boolean validateUser(String email, String password) {
-        if (!isValidEmail(email)) {
-            throw new InvalidEmailFormatException("Invalid email format");
-        }
-
+    public String login(String email, String password) {
         User user = usersStorage.getUserByEmail(email).orElseThrow(()->new UnknownAccountException("Email not found"));
 
-        return user.getPassword().equals(password);
+        if(user.getPassword().equals(password)) {
+            currentUser = user;
+            return "Login successful";
+        } else {
+            return "Incorrect Password";
+        }
     }
 
-    public User getUserbyEmail(String email) {
-        return usersStorage.getUserByEmail(email).orElseThrow(() -> new UnknownAccountException("Email not found."));
+    public String logout(){
+        currentUser = null;
+        return "Logout successful";
+    }
+
+
+    private boolean isValidEmail(String email) {
+        return email.matches(EMAIL_PATTERN);
     }
 }

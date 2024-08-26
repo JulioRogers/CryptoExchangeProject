@@ -13,8 +13,7 @@ public class Main {
         InMemoryUsersStorage storage = new InMemoryUsersStorage();
         UsersSystemService usersSystemService = new UsersSystemService(storage);
         ConsoleView consoleView = new ConsoleView();
-        SessionService sessionService = new SessionService();
-        UserSystemController userSystemController = new UserSystemController(consoleView, usersSystemService, sessionService);
+        UserSystemController userSystemController = new UserSystemController(consoleView, usersSystemService);
 
         while (true) {
             int choice = consoleView.getUserChoice();
@@ -26,6 +25,9 @@ public class Main {
                     userSystemController.login();
                     break;
                 case 3:
+                    userSystemController.logout();
+                    break;
+                case 4:
                     System.exit(0);
                 default:
                     consoleView.showError("Invalid choice. Try again.");
