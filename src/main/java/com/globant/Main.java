@@ -1,7 +1,6 @@
 package com.globant;
 
 import com.globant.controller.UserSystemController;
-import com.globant.service.SessionService;
 import com.globant.service.UsersSystemService;
 import com.globant.storage.InMemoryUsersStorage;
 import com.globant.view.ConsoleView;
