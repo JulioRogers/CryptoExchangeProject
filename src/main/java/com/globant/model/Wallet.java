@@ -1,7 +1,6 @@
 package com.globant.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class Wallet {
 
     public void depositFiat(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new NegativeDepositException("Amount must be greater than zero");
+            throw new NegativeAmountException();
         } else{
             this.fiatBalance = this.fiatBalance.add(amount);
         }
@@ -32,7 +31,7 @@ public class Wallet {
                 throw new InsufficientFundsException("Insufficient fiat balance.");
             }
         } else{
-            throw new NegativeDepositException("Amount must be greater than zero");
+            throw new NegativeAmountException();
         }
     }
 
@@ -45,7 +44,7 @@ public class Wallet {
             BigDecimal balance = currentBalance.add(amount);
             this.cryptoBalances.put(crypto, balance);
         } else {
-            throw new NegativeDepositException("Amount must be greater than zero"); //Cambiar nombre de la excepcion
+            throw new NegativeAmountException();
         }
     }
 }
