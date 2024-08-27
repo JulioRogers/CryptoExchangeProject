@@ -54,4 +54,8 @@ public class SessionService {
     private boolean isValidEmail(String email) {
         return email.matches(EMAIL_PATTERN);
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }
