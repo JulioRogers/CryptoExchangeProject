@@ -27,7 +27,6 @@ public class SessionController {
         }
     }
 
-
     public void login() {
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
@@ -40,5 +39,23 @@ public class SessionController {
 
     public void logout() {
         view.showInfo(sessionService.logout());
+    }
+
+    public void run(){
+        while (true) {
+            int choice = view.getUserChoice();
+            switch (choice) {
+                case 1:
+                    createUser();
+                    break;
+                case 2:
+                    login();
+                    break;
+                case 3:
+                    System.exit(0);
+                default:
+                    view.showError("Invalid choice. Try again.");
+            }
+        }
     }
 }
