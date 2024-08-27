@@ -14,23 +14,6 @@ public class Main {
         ConsoleView consoleView = new ConsoleView();
         SessionController sessionController = new SessionController(consoleView, sessionService);
 
-        while (true) {
-            int choice = consoleView.getUserChoice();
-            switch (choice) {
-                case 1:
-                    sessionController.createUser();
-                    break;
-                case 2:
-                    sessionController.login();
-                    break;
-                case 3:
-                    sessionController.logout();
-                    break;
-                case 4:
-                    System.exit(0);
-                default:
-                    consoleView.showError("Invalid choice. Try again.");
-            }
-        }
+        sessionController.run();
     }
 }
