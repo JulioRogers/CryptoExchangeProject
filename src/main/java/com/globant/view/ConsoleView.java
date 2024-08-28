@@ -73,7 +73,8 @@ public class ConsoleView {
     public int getLoggedInChoice() {
         System.out.println("Choose one option to continue:");
         System.out.println("1. Deposit Fiat");
-        System.out.println("2. Logout");
+        System.out.println("2. Buy Crypto");
+        System.out.println("3. Log Out");
         System.out.print("Enter your choice: ");
         try {
             return scanner.nextInt();
@@ -81,5 +82,10 @@ public class ConsoleView {
             scanner.nextLine();
             return INVALID_CHOICE;
         }
+    }
+
+    public String getCryptoName() {
+        System.out.print("Enter crypto name (BTC or ETH): ");
+        return scanner.nextLine().toUpperCase();
     }
 }
