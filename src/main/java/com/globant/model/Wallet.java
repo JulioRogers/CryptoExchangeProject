@@ -16,34 +16,31 @@ public class Wallet {
     }
 
     public void depositFiat(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new NegativeAmountException();
-        } else{
-            this.fiatBalance = this.fiatBalance.add(amount);
-        }
+        amountValidation(amount);
+        this.fiatBalance = this.fiatBalance.add(amount);
     }
 
     public void deliverFiat(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) > 0){
-            if (amount.compareTo(fiatBalance) <= 0) {
+        amountValidation(amount);
+        if (amount.compareTo(fiatBalance) <= 0) {
                 this.fiatBalance = this.fiatBalance.subtract(amount);
             } else {
                 throw new InsufficientFundsException("Insufficient fiat balance.");
             }
-        } else{
-            throw new NegativeAmountException();
-        }
     }
 
     public void receiveCrypto(String crypto, BigDecimal amount) {
-        if(amount.compareTo(BigDecimal.ZERO) > 0){
-            BigDecimal currentBalance = this.cryptoBalances.get(crypto);
-            if(currentBalance == null){
-                currentBalance = BigDecimal.ZERO;
-            }
-            BigDecimal balance = currentBalance.add(amount);
-            this.cryptoBalances.put(crypto, balance);
-        } else {
+        amountValidation(amount);
+        BigDecimal currentBalance = this.cryptoBalances.get(crypto);
+        if(currentBalance == null){
+            currentBalance = BigDecimal.ZERO;
+        }
+        BigDecimal balance = currentBalance.add(amount);
+        this.cryptoBalances.put(crypto, balance);
+    }
+
+    public void amountValidation(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegativeAmountException();
         }
     }
