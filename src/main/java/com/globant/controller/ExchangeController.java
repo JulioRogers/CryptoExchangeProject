@@ -25,4 +25,22 @@ public class ExchangeController {
             view.showError(e.getMessage());
         }
     }
+
+    public void run(User user){
+        boolean loggedIn = true;
+        while(loggedIn){
+            int loggedInChoice = view.getLoggedInChoice();
+            switch (loggedInChoice) {
+                case 1:
+                    depositFiat(user);
+                    break;
+                case 2:
+                    exchangeService.logOut();
+                    loggedIn = false;
+                    break;
+                default:
+                    view.showError("Invalid choice. Please try again.");
+            }
+        }
+    }
 }

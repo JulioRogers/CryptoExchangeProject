@@ -69,4 +69,17 @@ public class ConsoleView {
             return getAmountInput();
         }
     }
+
+    public int getLoggedInChoice() {
+        System.out.println("Choose one option to continue:");
+        System.out.println("1. Deposit Fiat");
+        System.out.println("2. Logout");
+        System.out.print("Enter your choice: ");
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            return INVALID_CHOICE;
+        }
+    }
 }
