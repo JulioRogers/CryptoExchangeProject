@@ -21,26 +21,30 @@ public class ExchangeController {
         try{
         user.getWallet().receiveFiat(amount);
         view.showSuccessMessage("Deposit successful");
-        } catch (NegativeAmountException e){
+        } catch (RuntimeException e){
             view.showError(e.getMessage());
         }
     }
 
     public void buyCrypto(){
         String cryptoName = view.getCryptoName();
-        if (cryptoName.equals("BITCOIN")){
-            cryptoName = "BTC";
-        } else if (cryptoName.equals("ETHEREUM")) {
-            cryptoName = "ETH";
-        }
+        cryptoName = checkOptionalNames(cryptoName);
         BigDecimal amount = view.getAmountInput();
-
         try {
             exchangeService.buyCrypto(cryptoName, amount);
             view.showSuccessMessage("Buy Successfully");
         } catch (RuntimeException e){
             view.showError(e.getMessage());
         }
+    }
+
+    private static String checkOptionalNames(String cryptoName) {
+        if (cryptoName.equals("BITCOIN")){
+            cryptoName = "BTC";
+        } else if (cryptoName.equals("ETHEREUM") || cryptoName.equals("ETHER")) {
+            cryptoName = "ETH";
+        }
+        return cryptoName;
     }
 
     public void run(User user){
