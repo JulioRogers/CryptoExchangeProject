@@ -9,11 +9,15 @@ import java.util.Map;
 public class ExchangeService {
     private final Map<String, BigDecimal> cryptoInitialPrices;
     private final SessionService sessionService;
+    private final Map<String, BigDecimal> cryptoBalances;
 
     public ExchangeService(SessionService sessionService) {
         this.cryptoInitialPrices = new HashMap<>();
         this.cryptoInitialPrices.put("BTC", new BigDecimal("50000"));
         this.cryptoInitialPrices.put("ETH", new BigDecimal("3000"));
+        this.cryptoBalances = new HashMap<>();
+        this.cryptoBalances.put("BTC", new BigDecimal("100"));
+        this.cryptoBalances.put("ETH", new BigDecimal("100"));
         this.sessionService = sessionService;
     }
 
