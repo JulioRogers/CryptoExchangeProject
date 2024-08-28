@@ -28,12 +28,9 @@ public class Wallet {
 
     public void receiveCrypto(String crypto, BigDecimal amount) {
         amountValidation(amount);
-        BigDecimal currentBalance = this.cryptoBalances.get(crypto);
-        if(currentBalance == null){
-            currentBalance = BigDecimal.ZERO;
-        }
-        BigDecimal balance = currentBalance.add(amount);
-        this.cryptoBalances.put(crypto, balance);
+        BigDecimal currentBalance = this.cryptoBalances.getOrDefault(crypto, BigDecimal.ZERO);
+        BigDecimal newBalance = currentBalance.add(amount);
+        this.cryptoBalances.put(crypto, newBalance);
     }
 
     public void amountValidation(BigDecimal amount) {
