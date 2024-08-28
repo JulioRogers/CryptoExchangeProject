@@ -18,9 +18,7 @@ public class SessionService {
     }
 
     public String createUser(String name, String email, String password) {
-        if (!isValidEmail(email)) {
-            throw new InvalidEmailFormatException("Invalid email format");
-        }
+        emailFormatValidation(email);
         if (usersStorage.getUserByEmail(email).isPresent()) {
             throw new DuplicateEmailException("Email already used");
         }
@@ -50,9 +48,10 @@ public class SessionService {
         return "Logout successful";
     }
 
-
-    private boolean isValidEmail(String email) {
-        return email.matches(EMAIL_PATTERN);
+    public void emailFormatValidation(String email) {
+        if (!email.matches(EMAIL_PATTERN)) {
+            throw new InvalidEmailFormatException("Invalid email format");
+        }
     }
 
     public User getCurrentUser() {
