@@ -26,7 +26,7 @@ public class ExchangeService {
         return this.cryptoInitialPrices.get(crypto).multiply(amount);
     }
 
-    public String buyCrypto(String crypto, BigDecimal amount) {
+    public void buyCrypto(String crypto, BigDecimal amount) {
         if (this.cryptoBalances.containsKey(crypto)) {
             if (this.cryptoBalances.get(crypto).compareTo(amount) >= 0) {
                 BigDecimal price = totalPrice(crypto, amount);
@@ -40,7 +40,6 @@ public class ExchangeService {
                     wallet.depositFiat(price);
                     throw new RuntimeException("There was a error buying the crypto");
                 }
-                return "Purchase successful";
             }else{
                 throw new InsufficientFundsException("Not enough cryptos to sell.");
             }
