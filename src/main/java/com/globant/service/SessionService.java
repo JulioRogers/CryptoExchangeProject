@@ -26,22 +26,12 @@ public class SessionService {
         return MessageFormat.format("This is your User Id:{0}", userId);
     }
 
-    private void checkEmailDuplication(String email) {
-        if (usersStorage.getUserByEmail(email).isPresent()) {
-            throw new DuplicateEmailException("Email already used");
-        }
-    }
-
     public String login(String email, String password) {
         emailFormatValidation(email);
-        User user = usersStorage.getUserByEmail(email).orElseThrow(()->new UnknownAccountException("Email not found"));
-
-        if(user.getPassword().equals(password)) {
-            currentUser = user;
-            return "Login successful";
-        } else {
-            return "Incorrect Password";
-        }
+        User user = usersStorage.getUserByEmail(email);
+        checkPassword(user, password);
+        currentUser = user;
+        return "Login successful";
     }
 
     public String logout(){
@@ -49,13 +39,26 @@ public class SessionService {
         return "Logout successful";
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    private void checkEmailDuplication(String email) {
+        try {
+            usersStorage.getUserByEmail(email);
+            throw new DuplicateEmailException("Email already used");
+        } catch (UnknownAccountException ignored) {
+        }
+    }
+    private void checkPassword(User user, String password) {
+        if(!user.getPassword().equals(password)){
+            throw new IncorrectPasswordException("Incorrect Password");
+        }
+    }
+
     private void emailFormatValidation(String email) {
         if (!email.matches(EMAIL_PATTERN)) {
             throw new InvalidEmailFormatException("Invalid email format");
         }
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 }
