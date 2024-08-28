@@ -37,7 +37,7 @@ public class ExchangeService {
                     wallet.receiveCrypto(crypto, amount);
                     cryptoBalances.put(crypto, cryptoBalances.get(crypto).subtract(amount));
                 } catch (Exception e) {
-                    wallet.depositFiat(price);
+                    wallet.receiveFiat(price);
                     throw new RuntimeException("There was a error buying the crypto");
                 }
             }else{

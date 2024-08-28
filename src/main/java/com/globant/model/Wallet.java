@@ -15,7 +15,7 @@ public class Wallet {
         this.cryptoBalances = new HashMap<>();
     }
 
-    public void depositFiat(BigDecimal amount) {
+    public void receiveFiat(BigDecimal amount) {
         amountValidation(amount);
         this.fiatBalance = this.fiatBalance.add(amount);
     }
