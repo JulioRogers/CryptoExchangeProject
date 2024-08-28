@@ -1,6 +1,8 @@
 package com.globant.service;
 
 import com.globant.model.InsufficientFundsException;
+import com.globant.model.NegativeAmountException;
+import com.globant.model.User;
 import com.globant.model.Wallet;
 
 import java.math.BigDecimal;
@@ -21,8 +23,14 @@ public class ExchangeService {
         this.cryptoBalances.put("ETH", new BigDecimal("100"));
         this.sessionService = sessionService;
     }
-    
+
+    public void deposit(User user, BigDecimal amount){
+        amountValidation(amount);
+        user.getWallet().receiveFiat(amount);
+    }
+
     public void buyCrypto(String crypto, BigDecimal amount) {
+        amountValidation(amount);
         checkCryptoAvailability(crypto);
         checkCryptoFunds(crypto, amount);
         BigDecimal price = totalPrice(crypto, amount);
@@ -60,6 +68,10 @@ public class ExchangeService {
             throw new InsufficientFundsException("Not enough cryptos to sell.");
         }
     }
-    
-    
+
+    private void amountValidation(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new NegativeAmountException();
+        }
+    }
 }

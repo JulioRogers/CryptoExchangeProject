@@ -19,7 +19,7 @@ public class ExchangeController {
     public void depositFiat(User user){
         BigDecimal amount = view.getAmountInput();
         try{
-        user.getWallet().receiveFiat(amount);
+        exchangeService.deposit(user, amount);
         view.showSuccessMessage("Deposit successful");
         } catch (RuntimeException e){
             view.showError(e.getMessage());
