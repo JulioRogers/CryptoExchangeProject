@@ -30,6 +30,11 @@ public class ExchangeController {
 
     public void buyCrypto(){
         String cryptoName = view.getCryptoName();
+        if (cryptoName.equals("BITCOIN")){
+            cryptoName = "BTC";
+        } else if (cryptoName.equals("ETHEREUM")) {
+            cryptoName = "ETH";
+        }
         BigDecimal amount = view.getAmountInput();
 
         try {
@@ -49,6 +54,9 @@ public class ExchangeController {
                     depositFiat(user);
                     break;
                 case 2:
+                    buyCrypto();
+                    break;
+                case 3:
                     exchangeService.logOut();
                     loggedIn = false;
                     break;
