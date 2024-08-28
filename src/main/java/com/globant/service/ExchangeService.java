@@ -28,4 +28,8 @@ public class ExchangeService {
         return "Purchase successful";
     }
 
+    public void logOut(){
+        sessionService.logout();
+    }
+
 }

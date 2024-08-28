@@ -1,5 +1,6 @@
 package com.globant.view;
 
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -58,4 +59,27 @@ public class ConsoleView {
     }
 
 
+    public BigDecimal getAmountInput() {
+        System.out.print("Enter amount: ");
+        try{
+            return scanner.nextBigDecimal();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            System.out.println(ANSI_RED + "Invalid amount, try again." + ANSI_RESET);
+            return getAmountInput();
+        }
+    }
+
+    public int getLoggedInChoice() {
+        System.out.println("Choose one option to continue:");
+        System.out.println("1. Deposit Fiat");
+        System.out.println("2. Logout");
+        System.out.print("Enter your choice: ");
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            return INVALID_CHOICE;
+        }
+    }
 }

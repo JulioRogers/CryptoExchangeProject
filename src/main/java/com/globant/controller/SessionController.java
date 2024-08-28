@@ -9,10 +9,12 @@ import com.globant.view.ConsoleView;
 public class SessionController {
     private final SessionService sessionService;
     private final ConsoleView view;
+    private final ExchangeController exchangeController;
 
-    public SessionController(ConsoleView view, SessionService sessionService) {
+    public SessionController(ConsoleView view, SessionService sessionService, ExchangeController exchangeController) {
         this.view = view;
         this.sessionService = sessionService;
+        this.exchangeController = exchangeController;
     }
 
     public void createUser() {
@@ -27,13 +29,15 @@ public class SessionController {
         }
     }
 
-    public void login() {
+    public boolean login() {
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
         try{
             view.showInfo(sessionService.login(email, password));
+            return true;
         } catch (UnknownAccountException e){
             view.showError(e.getMessage());
+            return false;
         }
     }
 
@@ -49,7 +53,9 @@ public class SessionController {
                     createUser();
                     break;
                 case 2:
-                    login();
+                    if(login()){
+                        exchangeController.run(sessionService.getCurrentUser());
+                    };
                     break;
                 case 3:
                     System.exit(0);
