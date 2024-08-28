@@ -33,13 +33,13 @@ public class Wallet {
         this.cryptoBalances.put(crypto, newBalance);
     }
 
-    public void amountValidation(BigDecimal amount) {
+    private void amountValidation(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegativeAmountException();
         }
     }
 
-    public void fundsValidation(BigDecimal amount, BigDecimal funds) {
+    private void fundsValidation(BigDecimal amount, BigDecimal funds) {
         if (amount.compareTo(funds) > 0) {
             throw new InsufficientFundsException("Insufficient fiat balance.");
         }

@@ -19,20 +19,21 @@ public class SessionService {
 
     public String createUser(String name, String email, String password) {
         emailFormatValidation(email);
-        if (usersStorage.getUserByEmail(email).isPresent()) {
-            throw new DuplicateEmailException("Email already used");
-        }
-
+        checkEmailDuplication(email);
         Integer userId = usersStorage.generateUniqueId();
-
         User user = new User(userId, name, email, password);
-
         usersStorage.saveUser(userId,user);
-
         return MessageFormat.format("This is your User Id:{0}", userId);
     }
 
+    private void checkEmailDuplication(String email) {
+        if (usersStorage.getUserByEmail(email).isPresent()) {
+            throw new DuplicateEmailException("Email already used");
+        }
+    }
+
     public String login(String email, String password) {
+        emailFormatValidation(email);
         User user = usersStorage.getUserByEmail(email).orElseThrow(()->new UnknownAccountException("Email not found"));
 
         if(user.getPassword().equals(password)) {
@@ -48,7 +49,7 @@ public class SessionService {
         return "Logout successful";
     }
 
-    public void emailFormatValidation(String email) {
+    private void emailFormatValidation(String email) {
         if (!email.matches(EMAIL_PATTERN)) {
             throw new InvalidEmailFormatException("Invalid email format");
         }
