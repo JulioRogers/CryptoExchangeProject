@@ -1,6 +1,6 @@
 package com.globant.service.orders;
 
-import com.globant.model.Order;
+import com.globant.model.orders.Order;
 
 import java.math.BigDecimal;
 

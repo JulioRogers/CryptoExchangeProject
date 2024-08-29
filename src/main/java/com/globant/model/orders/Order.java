@@ -1,4 +1,4 @@
-package com.globant.model;
+package com.globant.model.orders;
 
 import java.math.BigDecimal;
 

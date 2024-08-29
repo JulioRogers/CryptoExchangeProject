@@ -1,8 +1,8 @@
 package com.globant.service.orders;
 
 import com.globant.exceptions.OrderNotFoundException;
-import com.globant.model.Order;
-import com.globant.model.SellOrder;
+import com.globant.model.orders.Order;
+import com.globant.model.orders.SellOrder;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
