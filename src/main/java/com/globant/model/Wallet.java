@@ -8,26 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Wallet {
-    private final Integer userId;
-    private BigDecimal fiatBalance;
-    private final Map<String, BigDecimal> cryptoBalances;
     private final Map<Currency, BigDecimal> currencyBalances;
 
     public Wallet(Integer userId) {
-        this.userId = userId;
-        this.fiatBalance = BigDecimal.ZERO;
-        this.cryptoBalances = new HashMap<>();
         this.currencyBalances = new HashMap<>();
     }
 
-    public void receiveFiat(BigDecimal amount) {
-        this.fiatBalance = this.fiatBalance.add(amount);
-    }
-
-    public void deliverFiat(BigDecimal amount) {
-        fundsValidation(amount, this.fiatBalance);
-        this.fiatBalance = this.fiatBalance.subtract(amount);
-    }
     public void deliverCurrency(Currency currency, BigDecimal amount) {
         BigDecimal currentBalance = getBalance(currency);
         fundsValidation(amount, currentBalance);
