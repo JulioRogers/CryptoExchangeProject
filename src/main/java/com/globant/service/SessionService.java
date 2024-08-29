@@ -17,7 +17,6 @@ public class SessionService {
     private final Map<Integer, User> users = new HashMap<>();
     private int counter = 0;
 
-
     public String createUser(String name, String email, String password) {
         emailFormatValidation(email);
         checkEmailDuplication(email);
