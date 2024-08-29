@@ -18,31 +18,20 @@ public class SessionService {
     }
 
     public String createUser(String name, String email, String password) {
-        if (!isValidEmail(email)) {
-            throw new InvalidEmailFormatException("Invalid email format");
-        }
-        if (usersStorage.getUserByEmail(email).isPresent()) {
-            throw new DuplicateEmailException("Email already used");
-        }
-
+        emailFormatValidation(email);
+        checkEmailDuplication(email);
         Integer userId = usersStorage.generateUniqueId();
-
         User user = new User(userId, name, email, password);
-
         usersStorage.saveUser(userId,user);
-
         return MessageFormat.format("This is your User Id:{0}", userId);
     }
 
     public String login(String email, String password) {
-        User user = usersStorage.getUserByEmail(email).orElseThrow(()->new UnknownAccountException("Email not found"));
-
-        if(user.getPassword().equals(password)) {
-            currentUser = user;
-            return "Login successful";
-        } else {
-            return "Incorrect Password";
-        }
+        emailFormatValidation(email);
+        User user = usersStorage.getUserByEmail(email);
+        checkPassword(user, password);
+        currentUser = user;
+        return "Login successful";
     }
 
     public String logout(){
@@ -50,12 +39,26 @@ public class SessionService {
         return "Logout successful";
     }
 
-
-    private boolean isValidEmail(String email) {
-        return email.matches(EMAIL_PATTERN);
-    }
-
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    private void checkEmailDuplication(String email) {
+        try {
+            usersStorage.getUserByEmail(email);
+            throw new DuplicateEmailException("Email already used");
+        } catch (UnknownAccountException ignored) {
+        }
+    }
+    private void checkPassword(User user, String password) {
+        if(!user.getPassword().equals(password)){
+            throw new IncorrectPasswordException("Incorrect Password");
+        }
+    }
+
+    private void emailFormatValidation(String email) {
+        if (!email.matches(EMAIL_PATTERN)) {
+            throw new InvalidEmailFormatException("Invalid email format");
+        }
     }
 }

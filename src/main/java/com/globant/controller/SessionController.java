@@ -24,7 +24,7 @@ public class SessionController {
         try {
             String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
-        } catch (InvalidEmailFormatException | DuplicateEmailException e){
+        } catch (RuntimeException e){
             view.showError(e.getMessage());
         }
     }
@@ -35,7 +35,7 @@ public class SessionController {
         try{
             view.showInfo(sessionService.login(email, password));
             return true;
-        } catch (UnknownAccountException e){
+        } catch (RuntimeException e){
             view.showError(e.getMessage());
             return false;
         }

@@ -1,6 +1,8 @@
 package com.globant.service;
 
 import com.globant.model.InsufficientFundsException;
+import com.globant.model.NegativeAmountException;
+import com.globant.model.User;
 import com.globant.model.Wallet;
 
 import java.math.BigDecimal;
@@ -22,35 +24,54 @@ public class ExchangeService {
         this.sessionService = sessionService;
     }
 
-    public BigDecimal totalPrice(String crypto, BigDecimal amount) {
-        return this.cryptoInitialPrices.get(crypto).multiply(amount);
+    public void deposit(User user, BigDecimal amount){
+        amountValidation(amount);
+        user.getWallet().receiveFiat(amount);
     }
 
     public void buyCrypto(String crypto, BigDecimal amount) {
-        if (this.cryptoBalances.containsKey(crypto)) {
-            if (this.cryptoBalances.get(crypto).compareTo(amount) >= 0) {
-                BigDecimal price = totalPrice(crypto, amount);
-                Wallet wallet = sessionService.getCurrentUser().getWallet();
-                wallet.deliverFiat(price);
+        amountValidation(amount);
+        checkCryptoAvailability(crypto);
+        checkCryptoFunds(crypto, amount);
+        BigDecimal price = totalPrice(crypto, amount);
+        Wallet wallet = sessionService.getCurrentUser().getWallet();
+        wallet.deliverFiat(price);
+        sendCryptoToWallet(crypto, amount, wallet, price);
+        cryptoBalances.put(crypto, cryptoBalances.get(crypto).subtract(amount));
+    }
 
-                try {
-                    wallet.receiveCrypto(crypto, amount);
-                    cryptoBalances.put(crypto, cryptoBalances.get(crypto).subtract(amount));
-                } catch (Exception e) {
-                    wallet.depositFiat(price);
-                    throw new RuntimeException("There was a error buying the crypto");
-                }
-            }else{
-                throw new InsufficientFundsException("Not enough cryptos to sell.");
-            }
-        }else{
-            throw new InvalidCryptoException("Invalid Crypto");
-
+    private void sendCryptoToWallet(String crypto, BigDecimal amount, Wallet wallet, BigDecimal price) {
+        try {
+            wallet.receiveCrypto(crypto, amount);
+        } catch (Exception e) {
+            wallet.receiveFiat(price);
+            throw new RuntimeException("There was a error buying the crypto");
         }
     }
 
     public void logOut(){
         sessionService.logout();
     }
+    
+    private BigDecimal totalPrice(String crypto, BigDecimal amount) {
+        return this.cryptoInitialPrices.get(crypto).multiply(amount);
+    }
 
+    private void checkCryptoAvailability(String crypto) {
+        if (!this.cryptoBalances.containsKey(crypto)) {
+            throw new InvalidCryptoException("Invalid Crypto");
+        }
+    }
+    
+    private void checkCryptoFunds(String crypto, BigDecimal amount) {
+        if (this.cryptoBalances.get(crypto).compareTo(amount) < 0) {
+            throw new InsufficientFundsException("Not enough cryptos to sell.");
+        }
+    }
+
+    private void amountValidation(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new NegativeAmountException();
+        }
+    }
 }

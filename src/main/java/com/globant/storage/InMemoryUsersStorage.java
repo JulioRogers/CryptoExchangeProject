@@ -17,13 +17,13 @@ public class InMemoryUsersStorage implements UsersStorage {
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         for (User user : users.values()) {
             if (user.getEmail().equals(email)) {
-                return Optional.of(user);
+                return user;
             }
         }
-        return Optional.empty();
+        throw new UnknownAccountException("User not found.");
     }
 
     @Override

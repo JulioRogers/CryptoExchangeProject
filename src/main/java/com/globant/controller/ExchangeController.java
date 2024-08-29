@@ -1,10 +1,8 @@
 package com.globant.controller;
 
-import com.globant.model.InsufficientFundsException;
 import com.globant.model.NegativeAmountException;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
-import com.globant.service.InvalidCryptoException;
 import com.globant.view.ConsoleView;
 
 import java.math.BigDecimal;
@@ -21,28 +19,32 @@ public class ExchangeController {
     public void depositFiat(User user){
         BigDecimal amount = view.getAmountInput();
         try{
-        user.getWallet().depositFiat(amount);
+        exchangeService.deposit(user, amount);
         view.showSuccessMessage("Deposit successful");
-        } catch (NegativeAmountException e){
+        } catch (RuntimeException e){
             view.showError(e.getMessage());
         }
     }
 
     public void buyCrypto(){
         String cryptoName = view.getCryptoName();
-        if (cryptoName.equals("BITCOIN")){
-            cryptoName = "BTC";
-        } else if (cryptoName.equals("ETHEREUM")) {
-            cryptoName = "ETH";
-        }
+        cryptoName = checkOptionalNames(cryptoName);
         BigDecimal amount = view.getAmountInput();
-
         try {
             exchangeService.buyCrypto(cryptoName, amount);
             view.showSuccessMessage("Buy Successfully");
         } catch (RuntimeException e){
             view.showError(e.getMessage());
         }
+    }
+
+    private static String checkOptionalNames(String cryptoName) {
+        if (cryptoName.equals("BITCOIN")){
+            cryptoName = "BTC";
+        } else if (cryptoName.equals("ETHEREUM") || cryptoName.equals("ETHER")) {
+            cryptoName = "ETH";
+        }
+        return cryptoName;
     }
 
     public void run(User user){

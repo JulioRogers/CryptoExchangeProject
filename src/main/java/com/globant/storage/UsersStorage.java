@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UsersStorage {
     void saveUser(Integer uniqueId, User user);
-    Optional<User> getUserByEmail(String email);
+    User getUserByEmail(String email);
     User getUserById(Integer id);
     Integer generateUniqueId();
 }
