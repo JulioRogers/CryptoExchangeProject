@@ -1,5 +1,7 @@
 package com.globant.model;
 
+import com.globant.exceptions.InsufficientFundsException;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;

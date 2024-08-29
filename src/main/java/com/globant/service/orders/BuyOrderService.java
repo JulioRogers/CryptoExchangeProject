@@ -1,13 +1,14 @@
-package com.globant.storage;
+package com.globant.service.orders;
 
-import com.globant.model.BuyOrder;
-import com.globant.model.Order;
+import com.globant.exceptions.OrderNotFoundException;
+import com.globant.model.orders.BuyOrder;
+import com.globant.model.orders.Order;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class InMemoryBuyOrderStorage implements OrdersStorage {
+public class BuyOrderService implements OrderService {
     private final Queue<BuyOrder> buyOrders = new LinkedList<>();
 
     @Override
@@ -25,5 +26,10 @@ public class InMemoryBuyOrderStorage implements OrdersStorage {
             }
         }
         throw new OrderNotFoundException("No buy order found");
+    }
+
+    @Override
+    public void generateOrder(BigDecimal amount, BigDecimal price) {
+
     }
 }

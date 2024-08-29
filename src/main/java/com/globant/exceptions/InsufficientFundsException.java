@@ -1,4 +1,4 @@
-package com.globant.model;
+package com.globant.exceptions;
 
 public class InsufficientFundsException extends RuntimeException {
     public InsufficientFundsException(String message) {

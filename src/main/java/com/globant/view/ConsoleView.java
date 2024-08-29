@@ -86,6 +86,6 @@ public class ConsoleView {
 
     public String getCryptoName() {
         System.out.print("Enter crypto name (BTC or ETH): ");
-        return scanner.nextLine().toUpperCase();
+        return scanner.next();
     }
 }

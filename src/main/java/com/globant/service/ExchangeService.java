@@ -1,7 +1,8 @@
 package com.globant.service;
 
-import com.globant.model.InsufficientFundsException;
-import com.globant.model.NegativeAmountException;
+import com.globant.exceptions.InsufficientFundsException;
+import com.globant.exceptions.InvalidCryptoException;
+import com.globant.exceptions.NegativeAmountException;
 import com.globant.model.User;
 import com.globant.model.Wallet;
 

@@ -1,9 +1,6 @@
 package com.globant.controller;
 
-import com.globant.service.DuplicateEmailException;
-import com.globant.service.InvalidEmailFormatException;
 import com.globant.service.SessionService;
-import com.globant.storage.UnknownAccountException;
 import com.globant.view.ConsoleView;
 
 public class SessionController {

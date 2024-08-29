@@ -1,6 +1,5 @@
 package com.globant.controller;
 
-import com.globant.model.NegativeAmountException;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
 import com.globant.view.ConsoleView;

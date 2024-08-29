@@ -1,4 +1,4 @@
-package com.globant.model;
+package com.globant.exceptions;
 
 public class NegativeAmountException extends RuntimeException {
     public NegativeAmountException() {
