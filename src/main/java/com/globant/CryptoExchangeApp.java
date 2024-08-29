@@ -8,7 +8,7 @@ import com.globant.view.ConsoleView;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class CryptoExchangeApp {
     public static void main(String[] args) {
         SessionService sessionService = new SessionService();
         ConsoleView view = new ConsoleView();
