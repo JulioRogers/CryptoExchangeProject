@@ -1,6 +1,4 @@
-package com.globant.storage;
-
-import com.globant.model.Order;
+package com.globant.model;
 
 import java.math.BigDecimal;
 

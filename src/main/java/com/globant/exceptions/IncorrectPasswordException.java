@@ -1,4 +1,4 @@
-package com.globant.service;
+package com.globant.exceptions;
 
 public class IncorrectPasswordException extends RuntimeException {
     public IncorrectPasswordException(String message) {

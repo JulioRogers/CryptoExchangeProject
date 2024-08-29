@@ -1,8 +1,11 @@
 package com.globant.service;
 
+import com.globant.exceptions.DuplicateEmailException;
+import com.globant.exceptions.IncorrectPasswordException;
+import com.globant.exceptions.InvalidEmailFormatException;
 import com.globant.model.User;
-import com.globant.storage.UnknownAccountException;
-import com.globant.storage.UsersStorage;
+import com.globant.exceptions.UnknownAccountException;
+import com.globant.model.UsersStorage;
 
 import java.text.MessageFormat;
 

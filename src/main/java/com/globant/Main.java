@@ -5,7 +5,7 @@ import com.globant.controller.SessionController;
 import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
 import com.globant.storage.InMemoryUsersStorage;
-import com.globant.storage.UsersStorage;
+import com.globant.model.UsersStorage;
 import com.globant.view.ConsoleView;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or

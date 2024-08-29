@@ -1,6 +1,8 @@
 package com.globant.storage;
 
+import com.globant.exceptions.UnknownAccountException;
 import com.globant.model.User;
+import com.globant.model.UsersStorage;
 
 import java.util.Map;
 import java.util.HashMap;
