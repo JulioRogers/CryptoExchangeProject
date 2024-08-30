@@ -47,7 +47,7 @@ public class SessionController {
                     break;
                 case 2:
                     if(login()){
-                        exchangeController.run(sessionService.getCurrentUser());
+                        exchangeController.run();
                     };
                     break;
                 case 3:
