@@ -5,13 +5,14 @@ import com.globant.model.User;
 import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
 import com.globant.view.ConsoleView;
+import com.globant.view.View;
 
 public class SessionController {
     private final SessionService sessionService;
-    private final ConsoleView view;
+    private final View view;
     private final ExchangeService exchangeService;
 
-    public SessionController(ConsoleView view, SessionService sessionService, ExchangeService exchangeService) {
+    public SessionController(View view, SessionService sessionService, ExchangeService exchangeService) {
         this.view = view;
         this.sessionService = sessionService;
         this.exchangeService = exchangeService;
