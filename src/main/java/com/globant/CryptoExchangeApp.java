@@ -12,7 +12,7 @@ public class CryptoExchangeApp {
     public static void main(String[] args) {
         SessionService sessionService = new SessionService();
         ConsoleView view = new ConsoleView();
-        ExchangeService exchangeService = new ExchangeService(sessionService);
+        ExchangeService exchangeService = new ExchangeService();
         SessionController sessionController = new SessionController(view, sessionService, exchangeService);
 
         sessionController.run();

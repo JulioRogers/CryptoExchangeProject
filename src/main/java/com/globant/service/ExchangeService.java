@@ -14,11 +14,10 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class ExchangeService {
-    private final SessionService sessionService;
     private final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
 
-    public ExchangeService(SessionService sessionService) {
+    public ExchangeService() {
         exchangeWallet = new ExchangeWallet();
         CryptoCurrency bitcoin = new CryptoCurrency("Bitcoin","BTC", new BigDecimal("50000"));
         CryptoCurrency eth = new CryptoCurrency("Ether","ETH", new BigDecimal("3000"));
@@ -26,7 +25,6 @@ public class ExchangeService {
         exchangeWallet.receiveCurrency(bitcoin, new BigDecimal(100));
         exchangeWallet.receiveCurrency(eth, new BigDecimal(100));
         this.fiatCurrency = usd;
-        this.sessionService = sessionService;
     }
 
     public void depositFiat(User user, BigDecimal amount){
