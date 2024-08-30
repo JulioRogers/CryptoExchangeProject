@@ -36,6 +36,10 @@ public class ExchangeController {
         }
     }
 
+    public void getBalances(User user){
+        view.showInfo(exchangeService.getUserBalance(user));
+    }
+
 
 
     public void run(User user){
@@ -50,6 +54,9 @@ public class ExchangeController {
                     buyCrypto();
                     break;
                 case 3:
+                    getBalances(user);
+                    break;
+                case 4:
                     exchangeService.logOut();
                     loggedIn = false;
                     break;
