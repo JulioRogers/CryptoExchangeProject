@@ -1,4 +1,4 @@
 package com.globant.model;
 
-public class Wallet {
+public class Transaction {
 }
