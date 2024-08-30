@@ -1,17 +1,20 @@
 package com.globant.controller;
 
+import com.globant.exceptions.LogOutException;
+import com.globant.model.User;
+import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
 import com.globant.view.ConsoleView;
 
 public class SessionController {
     private final SessionService sessionService;
     private final ConsoleView view;
-    private final ExchangeController exchangeController;
+    private final ExchangeService exchangeService;
 
-    public SessionController(ConsoleView view, SessionService sessionService, ExchangeController exchangeController) {
+    public SessionController(ConsoleView view, SessionService sessionService, ExchangeService exchangeService) {
         this.view = view;
         this.sessionService = sessionService;
-        this.exchangeController = exchangeController;
+        this.exchangeService = exchangeService;
     }
 
     public void createUser() {
@@ -26,15 +29,16 @@ public class SessionController {
         }
     }
 
-    public boolean login() {
+    public void login() {
         String email = view.getEmailInput();
         String password = view.getPasswordInput();
         try{
-            view.showInfo(sessionService.login(email, password));
-            return true;
+            User loggedInUser = sessionService.login(email, password);
+            view.showInfo("Login Successful");
+            ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser);
+            exchangeController.run();
         } catch (RuntimeException e){
             view.showError(e.getMessage());
-            return false;
         }
     }
 
@@ -46,9 +50,10 @@ public class SessionController {
                     createUser();
                     break;
                 case 2:
-                    if(login()){
-                        exchangeController.run(sessionService.getCurrentUser());
-                    };
+                    try{login();
+                    } catch (LogOutException e){
+                        view.showSuccessMessage(e.getMessage());
+                    }
                     break;
                 case 3:
                     System.exit(0);
