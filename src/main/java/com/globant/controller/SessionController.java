@@ -38,8 +38,8 @@ public class SessionController {
             view.showInfo("Login Successful");
             ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser);
             exchangeController.run();
-        } catch (RuntimeException e){
-            view.showError(e.getMessage());
+        } catch (LogOutException e){
+            view.showSuccessMessage(e.getMessage());
         }
     }
 
@@ -51,10 +51,7 @@ public class SessionController {
                     createUser();
                     break;
                 case 2:
-                    try{login();
-                    } catch (LogOutException e){
-                        view.showSuccessMessage(e.getMessage());
-                    }
+                    login();
                     break;
                 case 3:
                     System.exit(0);
