@@ -27,11 +27,12 @@ public class ExchangeController implements UserController {
         while(loggedIn){
             int loggedInChoice = view.getLoggedInChoice();
             UserController controller = controllers.get(loggedInChoice);
+
+            if (loggedInChoice == 4) {
+                    loggedIn = false;
+            }
             if (controller != null){
                 controller.run();
-                if (loggedInChoice == 4) {
-                    loggedIn = false;
-                }
             } else {
                 view.showError("Invalid choice. Please try again.");
             }
