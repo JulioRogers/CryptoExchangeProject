@@ -34,12 +34,12 @@ public class ExchangeService {
         user.getWallet().receiveCurrency(fiatCurrency, amount);
     }
 
-    public void buyCrypto(String cryptoString, BigDecimal amount) {
+    public void buyCrypto(String cryptoString, BigDecimal amount, User user) {
         amountValidation(amount);
         CryptoCurrency crypto = findCrypto(cryptoString);
         checkCryptoFunds(crypto, amount);
         BigDecimal price = totalPrice(crypto, amount);
-        UserWallet userWallet = sessionService.getCurrentUser().getWallet();
+        UserWallet userWallet = user.getWallet();
         userWallet.deliverCurrency(fiatCurrency, price);
         sendCryptoToWallet(crypto, amount, userWallet, price);
         exchangeWallet.deliverCurrency(crypto, amount);

@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class SessionService {
 
-    private User currentUser;
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private final Map<Integer, User> users = new HashMap<>();
     private int counter = 0;
@@ -30,17 +29,7 @@ public class SessionService {
         emailFormatValidation(email);
         User user = getUserByEmail(email);
         checkPassword(user, password);
-        currentUser = user;
         return user;
-    }
-
-    public String logout(){
-        currentUser = null;
-        return "Logout successful";
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     private void checkEmailDuplication(String email) {

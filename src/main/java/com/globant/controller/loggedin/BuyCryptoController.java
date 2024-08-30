@@ -9,7 +9,7 @@ public class BuyCryptoController extends LoggedInUserController {
         String cryptoName = view.getCryptoName();
         BigDecimal amount = view.getAmountInput();
         try {
-            exchangeService.buyCrypto(cryptoName, amount);
+            exchangeService.buyCrypto(cryptoName, amount, user);
             view.showSuccessMessage("Buy Successfully");
         } catch (RuntimeException e){
             view.showError(e.getMessage());
