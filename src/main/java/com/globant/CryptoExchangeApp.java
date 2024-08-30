@@ -13,8 +13,7 @@ public class CryptoExchangeApp {
         SessionService sessionService = new SessionService();
         ConsoleView view = new ConsoleView();
         ExchangeService exchangeService = new ExchangeService(sessionService);
-        ExchangeController exchangeController = new ExchangeController(exchangeService, view);
-        SessionController sessionController = new SessionController(view, sessionService, exchangeController);
+        SessionController sessionController = new SessionController(view, sessionService, exchangeService);
 
         sessionController.run();
     }

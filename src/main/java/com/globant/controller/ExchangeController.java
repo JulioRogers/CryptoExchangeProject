@@ -14,7 +14,7 @@ import java.util.Map;
 public class ExchangeController implements UserController {
     private final ConsoleView view;
     private final Map<Integer, UserController> controllers = new HashMap<>();
-    public ExchangeController(ExchangeService exchangeService, ConsoleView view, User user, ConsoleView view1) {
+    public ExchangeController(ExchangeService exchangeService, ConsoleView view, User user) {
         this.view = view;
         LoggedInUserController.setAtributes(exchangeService,view,user);
         controllers.put(1, new DepositFiatController());

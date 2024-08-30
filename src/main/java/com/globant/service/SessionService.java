@@ -26,12 +26,12 @@ public class SessionService {
         return MessageFormat.format("This is your User Id:{0}", userId);
     }
 
-    public String login(String email, String password) {
+    public User login(String email, String password) {
         emailFormatValidation(email);
         User user = getUserByEmail(email);
         checkPassword(user, password);
         currentUser = user;
-        return "Login successful";
+        return user;
     }
 
     public String logout(){
