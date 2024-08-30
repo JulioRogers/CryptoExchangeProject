@@ -14,11 +14,10 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class ExchangeService {
-    private final SessionService sessionService;
     private final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
 
-    public ExchangeService(SessionService sessionService) {
+    public ExchangeService() {
         exchangeWallet = new ExchangeWallet();
         CryptoCurrency bitcoin = new CryptoCurrency("Bitcoin","BTC", new BigDecimal("50000"));
         CryptoCurrency eth = new CryptoCurrency("Ether","ETH", new BigDecimal("3000"));
@@ -26,7 +25,6 @@ public class ExchangeService {
         exchangeWallet.receiveCurrency(bitcoin, new BigDecimal(100));
         exchangeWallet.receiveCurrency(eth, new BigDecimal(100));
         this.fiatCurrency = usd;
-        this.sessionService = sessionService;
     }
 
     public void depositFiat(User user, BigDecimal amount){
@@ -34,12 +32,12 @@ public class ExchangeService {
         user.getWallet().receiveCurrency(fiatCurrency, amount);
     }
 
-    public void buyCrypto(String cryptoString, BigDecimal amount) {
+    public void buyCrypto(String cryptoString, BigDecimal amount, User user) {
         amountValidation(amount);
         CryptoCurrency crypto = findCrypto(cryptoString);
         checkCryptoFunds(crypto, amount);
         BigDecimal price = totalPrice(crypto, amount);
-        UserWallet userWallet = sessionService.getCurrentUser().getWallet();
+        UserWallet userWallet = user.getWallet();
         userWallet.deliverCurrency(fiatCurrency, price);
         sendCryptoToWallet(crypto, amount, userWallet, price);
         exchangeWallet.deliverCurrency(crypto, amount);
@@ -64,10 +62,6 @@ public class ExchangeService {
             userWallet.receiveCurrency(fiatCurrency, price);
             throw new RuntimeException("There was a error buying the crypto");
         }
-    }
-
-    public void logOut(){
-        sessionService.logout();
     }
 
     private BigDecimal totalPrice(CryptoCurrency crypto, BigDecimal amount) {
