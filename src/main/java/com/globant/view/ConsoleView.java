@@ -27,18 +27,8 @@ public class ConsoleView implements View {
         }
     }
 
-    public String getNameInput() {
-        System.out.print("Enter name: ");
-        return scanner.next();
-    }
-
-    public String getEmailInput() {
-        System.out.print("Enter email: ");
-        return scanner.next();
-    }
-
-    public String getPasswordInput() {
-        System.out.print("Enter password: ");
+    public String getStringInput(String prompt) {
+        System.out.print(prompt);
         return scanner.next();
     }
 
@@ -59,14 +49,14 @@ public class ConsoleView implements View {
     }
 
 
-    public BigDecimal getAmountInput() {
+    public BigDecimal getBigDecimalInput() {
         System.out.print("Enter amount: ");
         try{
             return scanner.nextBigDecimal();
         } catch (InputMismatchException e) {
             scanner.nextLine();
             System.out.println(ANSI_RED + "Invalid amount, try again." + ANSI_RESET);
-            return getAmountInput();
+            return getBigDecimalInput();
         }
     }
 
@@ -83,10 +73,5 @@ public class ConsoleView implements View {
             scanner.nextLine();
             return INVALID_CHOICE;
         }
-    }
-
-    public String getCryptoName() {
-        System.out.print("Enter crypto name (BTC or ETH): ");
-        return scanner.next();
     }
 }

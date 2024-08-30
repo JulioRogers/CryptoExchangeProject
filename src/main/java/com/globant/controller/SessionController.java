@@ -19,9 +19,9 @@ public class SessionController {
     }
 
     public void createUser() {
-        String name = view.getNameInput();
-        String email = view.getEmailInput();
-        String password = view.getPasswordInput();
+        String name = view.getStringInput("Enter name: ");
+        String email = view.getStringInput("Enter email: ");
+        String password = view.getStringInput("Enter password: ");
         try {
             String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
@@ -31,8 +31,8 @@ public class SessionController {
     }
 
     public void login() {
-        String email = view.getEmailInput();
-        String password = view.getPasswordInput();
+        String email = view.getStringInput("Enter email: ");
+        String password = view.getStringInput("Enter password: ");
         try{
             User loggedInUser = sessionService.login(email, password);
             view.showInfo("Login Successful");
