@@ -28,8 +28,4 @@ public class SellOrderService implements OrderService {
         throw new OrderNotFoundException("No sell order found");
     }
 
-    @Override
-    public void generateOrder(BigDecimal amount, BigDecimal price) {
-
-    }
 }

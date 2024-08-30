@@ -6,8 +6,8 @@ public class BuyCryptoController extends LoggedInUserController {
 
     @Override
     public void run() {
-        String cryptoName = view.getCryptoName();
-        BigDecimal amount = view.getAmountInput();
+        String cryptoName = view.getStringInput("Enter crypto name (BTC or ETH): ");
+        BigDecimal amount = view.getBigDecimalInput();
         try {
             exchangeService.buyCrypto(cryptoName, amount, user);
             view.showSuccessMessage("Buy Successfully");

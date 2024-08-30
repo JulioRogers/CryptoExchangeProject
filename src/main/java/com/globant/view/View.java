@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 public interface View {
     int getUserChoice();
-    String getNameInput();
-    String getEmailInput();
-    String getPasswordInput();
+    int getLoggedInChoice();
+
+    BigDecimal getBigDecimalInput();
+    String getStringInput(String prompt);
+
     void showError(String errorMessage);
     void showInfo(String message);
     void showSuccessMessage(String message);
+
     void close();
-    BigDecimal getAmountInput();
-    int getLoggedInChoice();
-    String getCryptoName();
 }

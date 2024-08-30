@@ -19,9 +19,9 @@ public class SessionController {
     }
 
     public void createUser() {
-        String name = view.getNameInput();
-        String email = view.getEmailInput();
-        String password = view.getPasswordInput();
+        String name = view.getStringInput("Enter name: ");
+        String email = view.getStringInput("Enter email: ");
+        String password = view.getStringInput("Enter password: ");
         try {
             String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
@@ -31,15 +31,15 @@ public class SessionController {
     }
 
     public void login() {
-        String email = view.getEmailInput();
-        String password = view.getPasswordInput();
+        String email = view.getStringInput("Enter email: ");
+        String password = view.getStringInput("Enter password: ");
         try{
             User loggedInUser = sessionService.login(email, password);
             view.showInfo("Login Successful");
             ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser);
             exchangeController.run();
-        } catch (RuntimeException e){
-            view.showError(e.getMessage());
+        } catch (LogOutException e){
+            view.showSuccessMessage(e.getMessage());
         }
     }
 
@@ -51,10 +51,7 @@ public class SessionController {
                     createUser();
                     break;
                 case 2:
-                    try{login();
-                    } catch (LogOutException e){
-                        view.showSuccessMessage(e.getMessage());
-                    }
+                    login();
                     break;
                 case 3:
                     System.exit(0);
