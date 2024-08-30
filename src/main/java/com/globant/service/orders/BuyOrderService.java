@@ -1,6 +1,8 @@
 package com.globant.service.orders;
 
 import com.globant.exceptions.OrderNotFoundException;
+import com.globant.model.User;
+import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.orders.BuyOrder;
 import com.globant.model.orders.Order;
 
@@ -26,10 +28,5 @@ public class BuyOrderService implements OrderService {
             }
         }
         throw new OrderNotFoundException("No buy order found");
-    }
-
-    @Override
-    public void generateOrder(BigDecimal amount, BigDecimal price) {
-
     }
 }
