@@ -9,7 +9,7 @@ public class DepositFiatController extends LoggedInUserController {
 
     @Override
     public void run() {
-        BigDecimal amount = view.getBigDecimalInput();
+        BigDecimal amount = view.getBigDecimalInput("Enter amount: ");
         try{
             exchangeService.depositFiat(user, amount);
             view.showSuccessMessage("Deposit successful");

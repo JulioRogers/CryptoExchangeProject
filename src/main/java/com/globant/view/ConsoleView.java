@@ -49,14 +49,14 @@ public class ConsoleView implements View {
     }
 
 
-    public BigDecimal getBigDecimalInput() {
-        System.out.print("Enter amount: ");
+    public BigDecimal getBigDecimalInput(String prompt) {
+        System.out.print(prompt);
         try{
             return scanner.nextBigDecimal();
         } catch (InputMismatchException e) {
             scanner.nextLine();
             System.out.println(ANSI_RED + "Invalid amount, try again." + ANSI_RESET);
-            return getBigDecimalInput();
+            return getBigDecimalInput("Enter amount: ");
         }
     }
 
