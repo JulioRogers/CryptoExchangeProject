@@ -1,4 +1,4 @@
-package com.globant.model;
+package com.globant.model.wallets;
 
 import com.globant.exceptions.InsufficientFundsException;
 import com.globant.model.currencies.Currency;
@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Wallet {
+public abstract class Wallet {
     private final Map<Currency, BigDecimal> currencyBalances;
 
-    public Wallet(Integer userId) {
+    public Wallet() {
         this.currencyBalances = new HashMap<>();
     }
 
