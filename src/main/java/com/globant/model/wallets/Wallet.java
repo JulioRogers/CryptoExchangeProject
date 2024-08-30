@@ -37,7 +37,7 @@ public abstract class Wallet {
         }
     }
 
-    private Map<Currency, BigDecimal> getCurrencies() {
+    public Map<Currency, BigDecimal> getCurrencies() {
         return new HashMap<>(this.currencyBalances);
     }
 }
