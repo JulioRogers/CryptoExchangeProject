@@ -74,7 +74,8 @@ public class ConsoleView {
         System.out.println("Choose one option to continue:");
         System.out.println("1. Deposit Fiat");
         System.out.println("2. Buy Crypto");
-        System.out.println("3. Log Out");
+        System.out.println("3. See Currency Balances");
+        System.out.println("4. Logout");
         System.out.print("Enter your choice: ");
         try {
             return scanner.nextInt();

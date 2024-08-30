@@ -4,48 +4,64 @@ import com.globant.exceptions.InsufficientFundsException;
 import com.globant.exceptions.InvalidCryptoException;
 import com.globant.exceptions.NegativeAmountException;
 import com.globant.model.User;
-import com.globant.model.Wallet;
+import com.globant.model.currencies.Currency;
+import com.globant.model.wallets.ExchangeWallet;
+import com.globant.model.wallets.UserWallet;
+import com.globant.model.currencies.CryptoCurrency;
+import com.globant.model.currencies.FiatCurrency;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ExchangeService {
-    private final Map<String, BigDecimal> cryptoInitialPrices;
     private final SessionService sessionService;
-    private final Map<String, BigDecimal> cryptoBalances;
+    private final FiatCurrency fiatCurrency;
+    private final ExchangeWallet exchangeWallet;
 
     public ExchangeService(SessionService sessionService) {
-        this.cryptoInitialPrices = new HashMap<>();
-        this.cryptoInitialPrices.put("BTC", new BigDecimal("50000"));
-        this.cryptoInitialPrices.put("ETH", new BigDecimal("3000"));
-        this.cryptoBalances = new HashMap<>();
-        this.cryptoBalances.put("BTC", new BigDecimal("100"));
-        this.cryptoBalances.put("ETH", new BigDecimal("100"));
+        exchangeWallet = new ExchangeWallet();
+        CryptoCurrency bitcoin = new CryptoCurrency("Bitcoin","BTC", new BigDecimal("50000"));
+        CryptoCurrency eth = new CryptoCurrency("Ether","ETH", new BigDecimal("3000"));
+        FiatCurrency usd = new FiatCurrency("Dolar","USD", BigDecimal.ONE);
+        exchangeWallet.receiveCurrency(bitcoin, new BigDecimal(100));
+        exchangeWallet.receiveCurrency(eth, new BigDecimal(100));
+        this.fiatCurrency = usd;
         this.sessionService = sessionService;
     }
 
-    public void deposit(User user, BigDecimal amount){
+    public void depositFiat(User user, BigDecimal amount){
         amountValidation(amount);
-        user.getWallet().receiveFiat(amount);
+        user.getWallet().receiveCurrency(fiatCurrency, amount);
     }
 
-    public void buyCrypto(String crypto, BigDecimal amount) {
+    public void buyCrypto(String cryptoString, BigDecimal amount) {
         amountValidation(amount);
-        checkCryptoAvailability(crypto);
+        CryptoCurrency crypto = findCrypto(cryptoString);
         checkCryptoFunds(crypto, amount);
         BigDecimal price = totalPrice(crypto, amount);
-        Wallet wallet = sessionService.getCurrentUser().getWallet();
-        wallet.deliverFiat(price);
-        sendCryptoToWallet(crypto, amount, wallet, price);
-        cryptoBalances.put(crypto, cryptoBalances.get(crypto).subtract(amount));
+        UserWallet userWallet = sessionService.getCurrentUser().getWallet();
+        userWallet.deliverCurrency(fiatCurrency, price);
+        sendCryptoToWallet(crypto, amount, userWallet, price);
+        exchangeWallet.deliverCurrency(crypto, amount);
     }
 
-    private void sendCryptoToWallet(String crypto, BigDecimal amount, Wallet wallet, BigDecimal price) {
+    public String getUserBalance(User user) {
+        UserWallet userWallet = user.getWallet();
+        Map<Currency, BigDecimal> balances = userWallet.getCurrencies();
+        StringBuilder result = new StringBuilder("Balances:\n");
+        for (Map.Entry<Currency, BigDecimal> entry : balances.entrySet()) {
+            Currency currency = entry.getKey();
+            BigDecimal balance = entry.getValue();
+            result.append(currency.getName()).append(": ").append(balance).append("\n");
+        }
+        return result.toString();
+    }
+
+    private void sendCryptoToWallet(CryptoCurrency crypto, BigDecimal amount, UserWallet userWallet, BigDecimal price) {
         try {
-            wallet.receiveCrypto(crypto, amount);
+            userWallet.receiveCurrency(crypto, amount);
         } catch (Exception e) {
-            wallet.receiveFiat(price);
+            userWallet.receiveCurrency(fiatCurrency, price);
             throw new RuntimeException("There was a error buying the crypto");
         }
     }
@@ -53,19 +69,13 @@ public class ExchangeService {
     public void logOut(){
         sessionService.logout();
     }
-    
-    private BigDecimal totalPrice(String crypto, BigDecimal amount) {
-        return this.cryptoInitialPrices.get(crypto).multiply(amount);
+
+    private BigDecimal totalPrice(CryptoCurrency crypto, BigDecimal amount) {
+        return crypto.getPrice().multiply(amount);
     }
 
-    private void checkCryptoAvailability(String crypto) {
-        if (!this.cryptoBalances.containsKey(crypto)) {
-            throw new InvalidCryptoException("Invalid Crypto");
-        }
-    }
-    
-    private void checkCryptoFunds(String crypto, BigDecimal amount) {
-        if (this.cryptoBalances.get(crypto).compareTo(amount) < 0) {
+    private void checkCryptoFunds(CryptoCurrency crypto, BigDecimal amount) {
+        if (exchangeWallet.getBalance(crypto).compareTo(amount) < 0) {
             throw new InsufficientFundsException("Not enough cryptos to sell.");
         }
     }
@@ -74,5 +84,15 @@ public class ExchangeService {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegativeAmountException();
         }
+    }
+
+
+    private CryptoCurrency findCrypto(String cryptoString) {
+        for (Currency crypto : exchangeWallet.getCurrencies().keySet()) {
+            if (crypto.getSymbol().equals(cryptoString) || crypto.getName().equals(cryptoString)) {
+                return (CryptoCurrency) crypto;
+            }
+        }
+        throw new InvalidCryptoException("Crypto not found: " + cryptoString);
     }
 }

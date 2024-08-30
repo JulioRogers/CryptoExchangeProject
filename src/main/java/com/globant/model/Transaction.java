@@ -1,4 +1,4 @@
 package com.globant.model;
 
-public class Cryptocurrency {
+public class Transaction {
 }
