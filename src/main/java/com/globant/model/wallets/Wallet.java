@@ -36,4 +36,8 @@ public abstract class Wallet {
             throw new InsufficientFundsException("Insufficient fiat balance.");
         }
     }
+
+    private Map<Currency, BigDecimal> getCurrencies() {
+        return new HashMap<>(this.currencyBalances);
+    }
 }
