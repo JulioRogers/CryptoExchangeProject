@@ -38,10 +38,6 @@ public class SessionController {
         }
     }
 
-    public void logout() {
-        view.showInfo(sessionService.logout());
-    }
-
     public void run(){
         while (true) {
             int choice = view.getUserChoice();
