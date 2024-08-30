@@ -20,17 +20,13 @@ public class ExchangeController implements UserController {
         controllers.put(1, new DepositFiatController());
         controllers.put(2, new BuyCryptoController());
         controllers.put(3, new GetBalancesController());
+        controllers.put(4, new LogOutController());
     }
 
     public void run(){
-        boolean loggedIn = true;
-        while(loggedIn){
+        while(true){
             int loggedInChoice = view.getLoggedInChoice();
             UserController controller = controllers.get(loggedInChoice);
-
-            if (loggedInChoice == 4) {
-                    loggedIn = false;
-            }
             if (controller != null){
                 controller.run();
             } else {

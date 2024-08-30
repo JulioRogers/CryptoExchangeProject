@@ -66,10 +66,6 @@ public class ExchangeService {
         }
     }
 
-    public void logOut(){
-        sessionService.logout();
-    }
-
     private BigDecimal totalPrice(CryptoCurrency crypto, BigDecimal amount) {
         return crypto.getPrice().multiply(amount);
     }

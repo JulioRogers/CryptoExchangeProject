@@ -1,5 +1,6 @@
 package com.globant.controller;
 
+import com.globant.exceptions.LogOutException;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
@@ -49,7 +50,10 @@ public class SessionController {
                     createUser();
                     break;
                 case 2:
-                    login();
+                    try{login();
+                    } catch (LogOutException e){
+                        view.showSuccessMessage(e.getMessage());
+                    }
                     break;
                 case 3:
                     System.exit(0);
