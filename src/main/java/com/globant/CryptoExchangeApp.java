@@ -14,5 +14,6 @@ public class CryptoExchangeApp {
         SessionController sessionController = new SessionController(view, sessionService);
 
         sessionController.run();
+        view.close();
     }
 }
