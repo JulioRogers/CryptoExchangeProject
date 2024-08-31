@@ -25,7 +25,7 @@ public class SessionController {
         try {
             String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
-        } catch (RuntimeException e){
+        } catch (DuplicateEmailException | InvalidEmailFormatException e){
             view.showError(e.getMessage());
         }
     }
@@ -40,6 +40,8 @@ public class SessionController {
             exchangeController.run();
         } catch (LogOutException e){
             view.showSuccessMessage(e.getMessage());
+        } catch (InvalidEmailFormatException | IncorrectPasswordException | UnknownAccountException e){
+            view.showError(e.getMessage());
         }
     }
 
