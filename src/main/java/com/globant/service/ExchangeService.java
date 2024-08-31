@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class ExchangeService {
-    private final FiatCurrency fiatCurrency;
+    public final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
 
     public ExchangeService() {
@@ -81,7 +81,7 @@ public class ExchangeService {
     }
 
 
-    private CryptoCurrency findCrypto(String cryptoString) {
+    public CryptoCurrency findCrypto(String cryptoString) {
         for (Currency crypto : exchangeWallet.getCurrencies().keySet()) {
             if (crypto.getSymbol().equals(cryptoString) || crypto.getName().equals(cryptoString)) {
                 return (CryptoCurrency) crypto;
