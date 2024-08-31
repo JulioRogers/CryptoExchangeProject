@@ -1,14 +1,5 @@
 package com.globant.controller.loggedin;
-
-import com.globant.exceptions.InsufficientFundsException;
 import com.globant.exceptions.InvalidCryptoException;
-import com.globant.exceptions.OrderNotFoundException;
-import com.globant.model.User;
-import com.globant.model.currencies.CryptoCurrency;
-import com.globant.model.currencies.FiatCurrency;
-import com.globant.model.orders.Order;
-import com.globant.model.orders.SellOrder;
-
 import java.math.BigDecimal;
 
 public class PlaceSellOrderController extends LoggedInUserController{

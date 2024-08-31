@@ -1,8 +1,6 @@
 package com.globant;
 
-import com.globant.controller.ExchangeController;
 import com.globant.controller.SessionController;
-import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
 import com.globant.view.ConsoleView;
 import com.globant.view.View;

@@ -1,7 +1,6 @@
 package com.globant.service.orders;
 
 import com.globant.exceptions.OrderNotFoundException;
-import com.globant.model.User;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.orders.BuyOrder;
 import com.globant.model.orders.Order;
