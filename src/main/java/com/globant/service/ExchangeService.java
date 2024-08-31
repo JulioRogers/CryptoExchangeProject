@@ -43,16 +43,29 @@ public class ExchangeService {
         exchangeWallet.deliverCurrency(crypto, amount);
     }
 
-    public String getUserBalance(User user) {
+    public String printUserBalance(User user) {
         UserWallet userWallet = user.getWallet();
         Map<Currency, BigDecimal> balances = userWallet.getCurrencies();
-        StringBuilder result = new StringBuilder("Balances:\n");
+        if(!balances.isEmpty()) {
+            StringBuilder result = new StringBuilder("Balances:\n");
+            balanceToString(balances, result);
+            Map<Currency, BigDecimal> frozenBalances = userWallet.getFrozenCurrencies();
+            if (!frozenBalances.isEmpty()) {
+                result.append("Frozen Balances:\n");
+                balanceToString(frozenBalances, result);
+            }
+            return result.toString();
+        } else {
+            return "No Balances";
+        }
+    }
+
+    private static void balanceToString(Map<Currency, BigDecimal> balances, StringBuilder result) {
         for (Map.Entry<Currency, BigDecimal> entry : balances.entrySet()) {
             Currency currency = entry.getKey();
             BigDecimal balance = entry.getValue();
             result.append(currency.getName()).append(": ").append(balance).append("\n");
         }
-        return result.toString();
     }
 
     private void sendCryptoToWallet(CryptoCurrency crypto, BigDecimal amount, UserWallet userWallet, BigDecimal price) {
@@ -69,7 +82,7 @@ public class ExchangeService {
     }
 
     private void checkCryptoFunds(CryptoCurrency crypto, BigDecimal amount) {
-        if (exchangeWallet.getBalance(crypto).compareTo(amount) < 0) {
+        if (exchangeWallet.getWalletBalance(crypto).compareTo(amount) < 0) {
             throw new InsufficientFundsException("Not enough cryptos to sell.");
         }
     }
