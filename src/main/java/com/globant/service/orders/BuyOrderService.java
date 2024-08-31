@@ -21,9 +21,10 @@ public class BuyOrderService implements OrderService {
     }
 
     @Override
-    public Order getOrder(BigDecimal amount, BigDecimal price) {
+    public Order getOrder(BigDecimal amount, BigDecimal price, CryptoCurrency crypto) {
         for (BuyOrder buyOrder : buyOrders) {
-            if (buyOrder.getAmount().compareTo(amount) == 0 && buyOrder.getPrice().compareTo(price) >=0){
+            if (buyOrder.getAmount().compareTo(amount) == 0 && buyOrder.getPrice().compareTo(price) >=0 && buyOrder.getCrypto().equals(crypto)) {
+                buyOrders.remove(buyOrder);
                 return buyOrder;
             }
         }
