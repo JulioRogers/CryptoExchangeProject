@@ -82,6 +82,7 @@ public class ExchangeService {
 
 
     public CryptoCurrency findCrypto(String cryptoString) {
+        cryptoString = cryptoString.toUpperCase();
         for (Currency crypto : exchangeWallet.getCurrencies().keySet()) {
             if (crypto.getSymbol().equals(cryptoString) || crypto.getName().equals(cryptoString)) {
                 return (CryptoCurrency) crypto;
