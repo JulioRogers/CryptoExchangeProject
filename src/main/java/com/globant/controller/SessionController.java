@@ -1,10 +1,9 @@
 package com.globant.controller;
 
-import com.globant.exceptions.LogOutException;
+import com.globant.exceptions.*;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
-import com.globant.view.ConsoleView;
 import com.globant.view.View;
 
 public class SessionController {
@@ -12,10 +11,10 @@ public class SessionController {
     private final View view;
     private final ExchangeService exchangeService;
 
-    public SessionController(View view, SessionService sessionService, ExchangeService exchangeService) {
+    public SessionController(View view, SessionService sessionService) {
         this.view = view;
         this.sessionService = sessionService;
-        this.exchangeService = exchangeService;
+        this.exchangeService = new ExchangeService();
     }
 
     public void createUser() {
@@ -25,7 +24,7 @@ public class SessionController {
         try {
             String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
-        } catch (RuntimeException e){
+        } catch (DuplicateEmailException | InvalidEmailFormatException e){
             view.showError(e.getMessage());
         }
     }
@@ -40,6 +39,8 @@ public class SessionController {
             exchangeController.run();
         } catch (LogOutException e){
             view.showSuccessMessage(e.getMessage());
+        } catch (InvalidEmailFormatException | IncorrectPasswordException | UnknownAccountException e){
+            view.showError(e.getMessage());
         }
     }
 

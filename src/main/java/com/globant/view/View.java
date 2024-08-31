@@ -6,7 +6,7 @@ public interface View {
     int getUserChoice();
     int getLoggedInChoice();
 
-    BigDecimal getBigDecimalInput();
+    BigDecimal getBigDecimalInput(String prompt);
     String getStringInput(String prompt);
 
     void showError(String errorMessage);

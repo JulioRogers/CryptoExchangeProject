@@ -1,7 +1,6 @@
 package com.globant.service.orders;
 
 import com.globant.exceptions.OrderNotFoundException;
-import com.globant.model.User;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.orders.BuyOrder;
 import com.globant.model.orders.Order;
@@ -21,9 +20,10 @@ public class BuyOrderService implements OrderService {
     }
 
     @Override
-    public Order getOrder(BigDecimal amount, BigDecimal price) {
+    public Order getOrder(BigDecimal amount, BigDecimal price, CryptoCurrency crypto) {
         for (BuyOrder buyOrder : buyOrders) {
-            if (buyOrder.getAmount().compareTo(amount) == 0 && buyOrder.getPrice().compareTo(price) >=0){
+            if (buyOrder.getAmount().compareTo(amount) == 0 && buyOrder.getPrice().compareTo(price) >=0 && buyOrder.getCrypto().getSymbol().equals(crypto.getSymbol())) {
+                buyOrders.remove(buyOrder);
                 return buyOrder;
             }
         }

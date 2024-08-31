@@ -49,14 +49,14 @@ public class ConsoleView implements View {
     }
 
 
-    public BigDecimal getBigDecimalInput() {
-        System.out.print("Enter amount: ");
+    public BigDecimal getBigDecimalInput(String prompt) {
+        System.out.print(prompt);
         try{
             return scanner.nextBigDecimal();
         } catch (InputMismatchException e) {
             scanner.nextLine();
             System.out.println(ANSI_RED + "Invalid amount, try again." + ANSI_RESET);
-            return getBigDecimalInput();
+            return getBigDecimalInput("Enter amount: ");
         }
     }
 
@@ -65,7 +65,9 @@ public class ConsoleView implements View {
         System.out.println("1. Deposit Fiat");
         System.out.println("2. Buy Crypto");
         System.out.println("3. See Currency Balances");
-        System.out.println("4. Logout");
+        System.out.println("4. Place Buy Order");
+        System.out.println("5. Place Sell Order");
+        System.out.println("6. Log Out");
         System.out.print("Enter your choice: ");
         try {
             return scanner.nextInt();

@@ -1,9 +1,6 @@
 package com.globant.controller;
 
-import com.globant.controller.loggedin.BuyCryptoController;
-import com.globant.controller.loggedin.DepositFiatController;
-import com.globant.controller.loggedin.GetBalancesController;
-import com.globant.controller.loggedin.LoggedInUserController;
+import com.globant.controller.loggedin.*;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
 import com.globant.view.View;
@@ -20,7 +17,9 @@ public class ExchangeController implements UserController {
         controllers.put(1, new DepositFiatController());
         controllers.put(2, new BuyCryptoController());
         controllers.put(3, new GetBalancesController());
-        controllers.put(4, new LogOutController());
+        controllers.put(4, new PlaceBuyOrderController());
+        controllers.put(5, new PlaceSellOrderController());
+        controllers.put(6, new LogOutController());
     }
 
     public void run(){
