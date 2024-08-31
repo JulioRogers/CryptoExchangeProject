@@ -3,8 +3,6 @@ package com.globant.controller;
 import com.globant.controller.loggedin.*;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
-import com.globant.service.orders.BuyOrderService;
-import com.globant.service.orders.SellOrderService;
 import com.globant.view.View;
 
 import java.util.HashMap;
@@ -13,9 +11,9 @@ import java.util.Map;
 public class ExchangeController implements UserController {
     private final View view;
     private final Map<Integer, UserController> controllers = new HashMap<>();
-    public ExchangeController(ExchangeService exchangeService, View view, User user, SellOrderService sellOrderService, BuyOrderService buyOrderService) {
+    public ExchangeController(ExchangeService exchangeService, View view, User user) {
         this.view = view;
-        LoggedInUserController.setAttributes(exchangeService,view,user, sellOrderService, buyOrderService);
+        LoggedInUserController.setAttributes(exchangeService,view,user);
         controllers.put(1, new DepositFiatController());
         controllers.put(2, new BuyCryptoController());
         controllers.put(3, new GetBalancesController());
