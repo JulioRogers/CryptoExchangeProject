@@ -1,9 +1,11 @@
 package com.globant.controller;
 
-import com.globant.exceptions.LogOutException;
+import com.globant.exceptions.*;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
+import com.globant.service.orders.BuyOrderService;
+import com.globant.service.orders.SellOrderService;
 import com.globant.view.ConsoleView;
 import com.globant.view.View;
 
@@ -11,11 +13,15 @@ public class SessionController {
     private final SessionService sessionService;
     private final View view;
     private final ExchangeService exchangeService;
+    private final BuyOrderService buyOrderService;
+    private final SellOrderService sellOrderService;
 
     public SessionController(View view, SessionService sessionService, ExchangeService exchangeService) {
         this.view = view;
         this.sessionService = sessionService;
         this.exchangeService = exchangeService;
+        this.buyOrderService = new BuyOrderService();
+        this.sellOrderService = new SellOrderService();
     }
 
     public void createUser() {
@@ -36,7 +42,7 @@ public class SessionController {
         try{
             User loggedInUser = sessionService.login(email, password);
             view.showInfo("Login Successful");
-            ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser);
+            ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser, sellOrderService, buyOrderService);
             exchangeController.run();
         } catch (LogOutException e){
             view.showSuccessMessage(e.getMessage());
