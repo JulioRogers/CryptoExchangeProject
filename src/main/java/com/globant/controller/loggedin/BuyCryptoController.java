@@ -1,5 +1,9 @@
 package com.globant.controller.loggedin;
 
+import com.globant.exceptions.InsufficientFundsException;
+import com.globant.exceptions.InvalidCryptoException;
+import com.globant.exceptions.NegativeAmountException;
+
 import java.math.BigDecimal;
 
 public class BuyCryptoController extends LoggedInUserController {
@@ -11,7 +15,7 @@ public class BuyCryptoController extends LoggedInUserController {
         try {
             exchangeService.buyCrypto(cryptoName, amount, user);
             view.showSuccessMessage("Buy Successfully");
-        } catch (RuntimeException e){
+        } catch (NegativeAmountException | InsufficientFundsException | InvalidCryptoException e){
             view.showError(e.getMessage());
         }
     }
