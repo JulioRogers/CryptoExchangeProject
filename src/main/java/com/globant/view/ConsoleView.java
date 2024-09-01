@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ConsoleView {
+public class ConsoleView implements View {
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_GREEN = "\u001B[32m";
@@ -27,18 +27,8 @@ public class ConsoleView {
         }
     }
 
-    public String getNameInput() {
-        System.out.print("Enter name: ");
-        return scanner.next();
-    }
-
-    public String getEmailInput() {
-        System.out.print("Enter email: ");
-        return scanner.next();
-    }
-
-    public String getPasswordInput() {
-        System.out.print("Enter password: ");
+    public String getStringInput(String prompt) {
+        System.out.print(prompt);
         return scanner.next();
     }
 
@@ -59,14 +49,14 @@ public class ConsoleView {
     }
 
 
-    public BigDecimal getAmountInput() {
-        System.out.print("Enter amount: ");
+    public BigDecimal getBigDecimalInput(String prompt) {
+        System.out.print(prompt);
         try{
             return scanner.nextBigDecimal();
         } catch (InputMismatchException e) {
             scanner.nextLine();
             System.out.println(ANSI_RED + "Invalid amount, try again." + ANSI_RESET);
-            return getAmountInput();
+            return getBigDecimalInput("Enter amount: ");
         }
     }
 
@@ -75,7 +65,10 @@ public class ConsoleView {
         System.out.println("1. Deposit Fiat");
         System.out.println("2. Buy Crypto");
         System.out.println("3. See Currency Balances");
-        System.out.println("4. Logout");
+        System.out.println("4. Place Buy Order");
+        System.out.println("5. Place Sell Order");
+        System.out.println("6. See Transactions");
+        System.out.println("7. Log Out");
         System.out.print("Enter your choice: ");
         try {
             return scanner.nextInt();
@@ -83,10 +76,5 @@ public class ConsoleView {
             scanner.nextLine();
             return INVALID_CHOICE;
         }
-    }
-
-    public String getCryptoName() {
-        System.out.print("Enter crypto name (BTC or ETH): ");
-        return scanner.next();
     }
 }

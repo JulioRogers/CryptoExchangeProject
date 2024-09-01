@@ -1,67 +1,36 @@
 package com.globant.controller;
 
+import com.globant.controller.loggedin.*;
 import com.globant.model.User;
 import com.globant.service.ExchangeService;
-import com.globant.view.ConsoleView;
+import com.globant.view.View;
 
-import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ExchangeController {
-    private final ExchangeService exchangeService;
-    private final ConsoleView view;
-
-    public ExchangeController(ExchangeService exchangeService, ConsoleView view) {
-        this.exchangeService = exchangeService;
+public class ExchangeController implements UserController {
+    private final View view;
+    private final Map<Integer, UserController> controllers = new HashMap<>();
+    public ExchangeController(ExchangeService exchangeService, View view, User user) {
         this.view = view;
+        LoggedInUserController.setAttributes(exchangeService,view,user);
+        controllers.put(1, new DepositFiatController());
+        controllers.put(2, new BuyCryptoController());
+        controllers.put(3, new GetBalancesController());
+        controllers.put(4, new PlaceBuyOrderController());
+        controllers.put(5, new PlaceSellOrderController());
+        controllers.put(6, new GetTransactionsController());
+        controllers.put(7, new LogOutController());
     }
 
-    public void depositFiat(User user){
-        BigDecimal amount = view.getAmountInput();
-        try{
-        exchangeService.depositFiat(user, amount);
-        view.showSuccessMessage("Deposit successful");
-        } catch (RuntimeException e){
-            view.showError(e.getMessage());
-        }
-    }
-
-    public void buyCrypto(){
-        String cryptoName = view.getCryptoName();
-        BigDecimal amount = view.getAmountInput();
-        try {
-            exchangeService.buyCrypto(cryptoName, amount);
-            view.showSuccessMessage("Buy Successfully");
-        } catch (RuntimeException e){
-            view.showError(e.getMessage());
-        }
-    }
-
-    public void getBalances(User user){
-        view.showInfo(exchangeService.getUserBalance(user));
-    }
-
-
-
-    public void run(User user){
-        boolean loggedIn = true;
-        while(loggedIn){
+    public void run(){
+        while(true){
             int loggedInChoice = view.getLoggedInChoice();
-            switch (loggedInChoice) {
-                case 1:
-                    depositFiat(user);
-                    break;
-                case 2:
-                    buyCrypto();
-                    break;
-                case 3:
-                    getBalances(user);
-                    break;
-                case 4:
-                    exchangeService.logOut();
-                    loggedIn = false;
-                    break;
-                default:
-                    view.showError("Invalid choice. Please try again.");
+            UserController controller = controllers.get(loggedInChoice);
+            if (controller != null){
+                controller.run();
+            } else {
+                view.showError("Invalid choice. Please try again.");
             }
         }
     }

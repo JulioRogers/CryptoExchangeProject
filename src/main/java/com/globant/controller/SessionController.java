@@ -1,40 +1,46 @@
 package com.globant.controller;
 
+import com.globant.exceptions.*;
+import com.globant.model.User;
+import com.globant.service.ExchangeService;
 import com.globant.service.SessionService;
-import com.globant.view.ConsoleView;
+import com.globant.view.View;
 
 public class SessionController {
     private final SessionService sessionService;
-    private final ConsoleView view;
-    private final ExchangeController exchangeController;
+    private final View view;
+    private final ExchangeService exchangeService;
 
-    public SessionController(ConsoleView view, SessionService sessionService, ExchangeController exchangeController) {
+    public SessionController(View view, SessionService sessionService) {
         this.view = view;
         this.sessionService = sessionService;
-        this.exchangeController = exchangeController;
+        this.exchangeService = new ExchangeService();
     }
 
     public void createUser() {
-        String name = view.getNameInput();
-        String email = view.getEmailInput();
-        String password = view.getPasswordInput();
+        String name = view.getStringInput("Enter name: ");
+        String email = view.getStringInput("Enter email: ");
+        String password = view.getStringInput("Enter password: ");
         try {
             String userCreationMessage = sessionService.createUser(name, email, password);
             view.showSuccessMessage(userCreationMessage);
-        } catch (RuntimeException e){
+        } catch (DuplicateEmailException | InvalidEmailFormatException e){
             view.showError(e.getMessage());
         }
     }
 
-    public boolean login() {
-        String email = view.getEmailInput();
-        String password = view.getPasswordInput();
+    public void login() {
+        String email = view.getStringInput("Enter email: ");
+        String password = view.getStringInput("Enter password: ");
         try{
-            view.showInfo(sessionService.login(email, password));
-            return true;
-        } catch (RuntimeException e){
+            User loggedInUser = sessionService.login(email, password);
+            view.showInfo("Login Successful");
+            ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser);
+            exchangeController.run();
+        } catch (LogOutException e){
+            view.showSuccessMessage(e.getMessage());
+        } catch (InvalidEmailFormatException | IncorrectPasswordException | UnknownAccountException e){
             view.showError(e.getMessage());
-            return false;
         }
     }
 
@@ -46,9 +52,7 @@ public class SessionController {
                     createUser();
                     break;
                 case 2:
-                    if(login()){
-                        exchangeController.run(sessionService.getCurrentUser());
-                    };
+                    login();
                     break;
                 case 3:
                     System.exit(0);
