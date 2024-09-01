@@ -42,8 +42,7 @@ public class ExchangeService {
     }
 
     public void depositFiat(User user, BigDecimal amount){
-        amountValidation(amount);
-        user.getWallet().receiveCurrency(fiatCurrency, amount);
+        Deposit.execute(user, fiatCurrency, amount);
     }
 
     public void buyCrypto(String cryptoString, BigDecimal amount, User user) {
