@@ -23,8 +23,8 @@ import java.util.Map;
 public class ExchangeService {
     public final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
-    private final SellOrderService sellOrderService;
-    private final BuyOrderService buyOrderService;
+    private final PlaceOrderService placeOrder;
+
 
     public ExchangeService() {
         exchangeWallet = new ExchangeWallet();
@@ -37,8 +37,7 @@ public class ExchangeService {
         exchangeWallet.receiveCurrency(eth, new BigDecimal(100));
         this.fiatCurrency = usd;
 
-        this.sellOrderService = new SellOrderService();
-        this.buyOrderService = new BuyOrderService();
+        this.placeOrder = new PlaceOrderService(fiatCurrency);
     }
 
     public void depositFiat(User user, BigDecimal amount){
@@ -78,48 +77,12 @@ public class ExchangeService {
         FiatCurrency fiat = fiatCurrency;
         checkCurrencyFunds(price, fiat, userBuyer.getWallet());
         CryptoCurrency crypto = findCrypto(cryptoString);
-        try {
-            Order order = sellOrderService.getOrder(amount, price, crypto);
-            User userSeller = order.getUser();
-            BigDecimal sellPrice = order.getPrice();
-            userBuyer.getWallet().deliverCurrency(fiat, sellPrice);
-            userBuyer.getWallet().receiveCurrency(crypto, amount);
-            userSeller.getWallet().receiveCurrency(fiat, sellPrice);
-            userSeller.getWallet().unfrozeCurrency(crypto, amount);
-            //Create Transaction
-            return "A matching sell order was found and the purchase was made.";
-        } catch (OrderNotFoundException e) {
-            userBuyer.getWallet().deliverCurrency(fiat, price);
-            userBuyer.getWallet().frozeCurrency(fiat, price);
-            BuyOrder buyOrder = new BuyOrder(userBuyer, crypto, amount, price);
-            buyOrderService.addOrder(buyOrder);
-            return "Buy order made.";
-        }
+        return placeOrder.buyOrder(crypto, amount, price, userBuyer, exchangeWallet);
     }
 
     public String placeSellOrder(String cryptoString, BigDecimal amount, BigDecimal price, User userSeller) {
         CryptoCurrency crypto = findCrypto(cryptoString);
-        checkCurrencyFunds(amount, crypto, userSeller.getWallet());
-        FiatCurrency fiat = fiatCurrency;
-        try {
-            Order order = buyOrderService.getOrder(amount, price, crypto);
-            User userBuyer = order.getUser();
-            BigDecimal change = order.getPrice().subtract(price);
-            userSeller.getWallet().deliverCurrency(crypto, amount);
-            userSeller.getWallet().receiveCurrency(fiat, price);
-            userBuyer.getWallet().receiveCurrency(crypto, amount);
-            userBuyer.getWallet().unfrozeCurrency(fiat, price);
-            userBuyer.getWallet().unfrozeCurrency(fiat, change);
-            userBuyer.getWallet().receiveCurrency(fiat, change);
-            //Create Transaction
-            return "A matching buy order was found and the sale was made.";
-        } catch (OrderNotFoundException e) {
-            userSeller.getWallet().deliverCurrency(crypto, amount);
-            userSeller.getWallet().frozeCurrency(crypto, amount);
-            SellOrder sellOrder = new SellOrder(userSeller, crypto, amount, price);
-            sellOrderService.addOrder(sellOrder);
-            return "Sell order made.";
-        }
+        return placeOrder.sellOrder(crypto, amount, price,userSeller, exchangeWallet);
     }
 
 
