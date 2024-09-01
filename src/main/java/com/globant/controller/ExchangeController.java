@@ -13,7 +13,7 @@ public class ExchangeController implements UserController {
     private final Map<Integer, UserController> controllers = new HashMap<>();
     public ExchangeController(ExchangeService exchangeService, View view, User user) {
         this.view = view;
-        LoggedInUserController.setAttributes(exchangeService,view,user);
+        LoggedInUserController.initialize(exchangeService,view,user);
         controllers.put(1, new DepositFiatController());
         controllers.put(2, new BuyCryptoController());
         controllers.put(3, new GetBalancesController());
