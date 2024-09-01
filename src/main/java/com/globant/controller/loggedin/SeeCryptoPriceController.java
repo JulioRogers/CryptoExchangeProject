@@ -4,7 +4,7 @@ import com.globant.exceptions.InvalidCryptoException;
 
 import java.math.BigDecimal;
 
-public class SeeCryptoPrice extends LoggedInUserController{
+public class SeeCryptoPriceController extends LoggedInUserController{
 
     @Override
     public void run() {

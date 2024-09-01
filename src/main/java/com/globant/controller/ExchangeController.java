@@ -20,7 +20,7 @@ public class ExchangeController implements UserController {
         controllers.put(4, new PlaceBuyOrderController());
         controllers.put(5, new PlaceSellOrderController());
         controllers.put(6, new GetTransactionsController());
-        controllers.put(7, new SeeCryptoPrice());
+        controllers.put(7, new SeeCryptoPriceController());
         controllers.put(8, new LogOutController());
     }
 
