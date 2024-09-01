@@ -43,7 +43,10 @@ public class ExchangeService {
         UserWallet userWallet = user.getWallet();
         userWallet.deliverCurrency(fiatCurrency, price);
         userWallet.receiveCurrency(crypto, amount);
-        exchangeWallet.deliverCurrency(crypto, amount);    }
+        exchangeWallet.deliverCurrency(crypto, amount);
+        BigDecimal newPrice = FluctuateCrypto.execute(crypto);
+        crypto.setPrice(newPrice);
+    }
 
     public String printUserBalance(User user) {
         return PrintBalance.execute(user);
@@ -71,5 +74,10 @@ public class ExchangeService {
 
     public String getTransactions(User user) {
         return GetTransactions.execute(user);
+    }
+
+    public BigDecimal getCryptoValue(String cryptoString) {
+        CryptoCurrency crypto = findCrypto(cryptoString);
+        return crypto.getPrice();
     }
 }
