@@ -57,20 +57,7 @@ public class ExchangeService {
     }
 
     public String printUserBalance(User user) {
-        UserWallet userWallet = user.getWallet();
-        Map<Currency, BigDecimal> balances = userWallet.getCurrencies();
-        if(!balances.isEmpty()) {
-            StringBuilder result = new StringBuilder("Balances:\n");
-            balanceToString(balances, result);
-            Map<Currency, BigDecimal> frozenBalances = userWallet.getFrozenCurrencies();
-            if (!frozenBalances.isEmpty()) {
-                result.append("Frozen Balances:\n");
-                balanceToString(frozenBalances, result);
-            }
-            return result.toString();
-        } else {
-            return "No Balances";
-        }
+        return PrintBalance.execute(user);
     }
 
     public String placeBuyOrder(String cryptoString, BigDecimal amount, BigDecimal price, User userBuyer) {
