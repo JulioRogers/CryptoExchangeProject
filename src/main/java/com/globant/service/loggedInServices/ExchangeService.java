@@ -1,4 +1,4 @@
-package com.globant.service;
+package com.globant.service.loggedInServices;
 
 import com.globant.exceptions.InvalidCryptoException;
 import com.globant.model.User;
@@ -7,6 +7,7 @@ import com.globant.model.wallets.ExchangeWallet;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.currencies.FiatCurrency;
 import com.globant.model.wallets.UserWallet;
+import com.globant.service.Validation;
 
 import java.math.BigDecimal;
 

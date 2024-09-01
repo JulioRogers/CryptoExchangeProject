@@ -2,7 +2,7 @@ package com.globant.controller.loggedin;
 
 import com.globant.controller.UserController;
 import com.globant.model.User;
-import com.globant.service.ExchangeService;
+import com.globant.service.loggedInServices.ExchangeService;
 import com.globant.view.View;
 
 public abstract class LoggedInUserController implements UserController {

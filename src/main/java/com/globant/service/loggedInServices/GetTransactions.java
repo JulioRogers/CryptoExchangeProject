@@ -1,13 +1,10 @@
-package com.globant.service;
+package com.globant.service.loggedInServices;
 
 import com.globant.model.Transaction;
 import com.globant.model.User;
-import com.globant.model.currencies.Currency;
 import com.globant.model.wallets.UserWallet;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 public class GetTransactions {
 

@@ -1,4 +1,4 @@
-package com.globant.service;
+package com.globant.service.loggedInServices;
 
 import com.globant.model.currencies.CryptoCurrency;
 

@@ -1,4 +1,4 @@
-package com.globant.service;
+package com.globant.service.loggedInServices;
 
 import com.globant.exceptions.OrderNotFoundException;
 import com.globant.model.Transaction;
@@ -9,8 +9,9 @@ import com.globant.model.orders.BuyOrder;
 import com.globant.model.orders.Order;
 import com.globant.model.orders.SellOrder;
 import com.globant.model.wallets.Wallet;
-import com.globant.service.orders.BuyOrderService;
-import com.globant.service.orders.SellOrderService;
+import com.globant.service.Validation;
+import com.globant.service.loggedInServices.orders.BuyOrderService;
+import com.globant.service.loggedInServices.orders.SellOrderService;
 
 import java.math.BigDecimal;
 

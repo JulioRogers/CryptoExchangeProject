@@ -2,7 +2,7 @@ package com.globant.controller;
 
 import com.globant.exceptions.*;
 import com.globant.model.User;
-import com.globant.service.ExchangeService;
+import com.globant.service.loggedInServices.ExchangeService;
 import com.globant.service.SessionService;
 import com.globant.view.View;
 
