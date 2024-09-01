@@ -1,6 +1,7 @@
 package com.globant.service;
 
 import com.globant.exceptions.OrderNotFoundException;
+import com.globant.model.Transaction;
 import com.globant.model.User;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.currencies.FiatCurrency;
@@ -36,6 +37,10 @@ public class PlaceOrderService {
             userBuyer.getWallet().unfrozeCurrency(fiat, change);
             userBuyer.getWallet().receiveCurrency(fiat, change);
             //Create Transaction
+            Transaction sellTransaction = new Transaction(crypto, amount, price, "Sell");
+            userSeller.getWallet().saveTransaction(sellTransaction);
+            Transaction buyTransaction = new Transaction(crypto, amount, price, "Buy");
+            userBuyer.getWallet().saveTransaction(buyTransaction);
             return "A matching buy order was found and the sale was made.";
         } catch (OrderNotFoundException e) {
             userSeller.getWallet().deliverCurrency(crypto, amount);
@@ -57,6 +62,10 @@ public class PlaceOrderService {
             userSeller.getWallet().receiveCurrency(fiat, sellPrice);
             userSeller.getWallet().unfrozeCurrency(crypto, amount);
             //Create Transaction
+            Transaction sellTransaction = new Transaction(crypto, amount, sellPrice, "Sell");
+            userSeller.getWallet().saveTransaction(sellTransaction);
+            Transaction buyTransaction = new Transaction(crypto, amount, sellPrice, "Buy");
+            userBuyer.getWallet().saveTransaction(buyTransaction);
             return "A matching sell order was found and the purchase was made.";
         } catch (OrderNotFoundException e) {
             userBuyer.getWallet().deliverCurrency(fiat, price);

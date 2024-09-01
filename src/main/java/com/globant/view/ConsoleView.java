@@ -67,7 +67,8 @@ public class ConsoleView implements View {
         System.out.println("3. See Currency Balances");
         System.out.println("4. Place Buy Order");
         System.out.println("5. Place Sell Order");
-        System.out.println("6. Log Out");
+        System.out.println("6. See Transactions");
+        System.out.println("7. Log Out");
         System.out.print("Enter your choice: ");
         try {
             return scanner.nextInt();

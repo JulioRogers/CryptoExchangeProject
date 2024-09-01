@@ -18,7 +18,13 @@ public class UserWallet extends Wallet {
         this.frozenBalances = new HashMap<>();
     }
 
-    public void saveTransaction(){}
+    public void saveTransaction(Transaction transaction) {
+        transactions.add(transaction);
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
 
     public Map<Currency, BigDecimal> getFrozenCurrencies() {
         return new HashMap<>(this.frozenBalances);

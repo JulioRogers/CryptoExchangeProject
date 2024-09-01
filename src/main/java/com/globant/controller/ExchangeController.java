@@ -19,7 +19,8 @@ public class ExchangeController implements UserController {
         controllers.put(3, new GetBalancesController());
         controllers.put(4, new PlaceBuyOrderController());
         controllers.put(5, new PlaceSellOrderController());
-        controllers.put(6, new LogOutController());
+        controllers.put(6, new GetTransactionsController());
+        controllers.put(7, new LogOutController());
     }
 
     public void run(){

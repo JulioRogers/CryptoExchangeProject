@@ -68,4 +68,8 @@ public class ExchangeService {
         }
         throw new InvalidCryptoException("Crypto not found: " + cryptoString);
     }
+
+    public String getTransactions(User user) {
+        return GetTransactions.execute(user);
+    }
 }
