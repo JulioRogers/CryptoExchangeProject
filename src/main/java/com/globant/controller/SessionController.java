@@ -2,16 +2,17 @@ package com.globant.controller;
 
 import com.globant.exceptions.*;
 import com.globant.model.User;
+import com.globant.service.Session;
 import com.globant.service.loggedInServices.ExchangeService;
 import com.globant.service.SessionService;
 import com.globant.view.View;
 
 public class SessionController {
-    private final SessionService sessionService;
+    private final Session sessionService;
     private final View view;
     private final ExchangeService exchangeService;
 
-    public SessionController(View view, SessionService sessionService) {
+    public SessionController(View view, Session sessionService) {
         this.view = view;
         this.sessionService = sessionService;
         this.exchangeService = new ExchangeService();

@@ -6,16 +6,18 @@ import com.globant.exceptions.InvalidEmailFormatException;
 import com.globant.model.User;
 import com.globant.exceptions.UnknownAccountException;
 
+import java.security.Provider;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SessionService {
+public class SessionService implements Session {
 
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private final Map<Integer, User> users = new HashMap<>();
     private int counter = 0;
 
+    @Override
     public String createUser(String name, String email, String password) {
         emailFormatValidation(email);
         checkEmailDuplication(email);
@@ -25,6 +27,7 @@ public class SessionService {
         return MessageFormat.format("This is your User Id:{0}", userId);
     }
 
+    @Override
     public User login(String email, String password) {
         emailFormatValidation(email);
         User user = getUserByEmail(email);
