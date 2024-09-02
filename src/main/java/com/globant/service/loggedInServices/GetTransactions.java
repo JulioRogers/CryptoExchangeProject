@@ -17,12 +17,7 @@ public class GetTransactions {
             StringBuilder result = new StringBuilder("Transactions:\n");
             int index = 1;
             for (Transaction transaction : transactions) {
-                result.append(index).append(". ")
-                      .append("CryptoCurrency: ").append(transaction.getCryptoCurrency().getName())
-                      .append(", Amount: ").append(transaction.getAmount())
-                      .append(", Price: ").append(transaction.getPrice())
-                      .append(", Order Type: ").append(transaction.getOrderType())
-                      .append("\n");
+                result.append(index).append(". ").append(transaction).append("\n");
                 index++;
             }
             return result.toString();
