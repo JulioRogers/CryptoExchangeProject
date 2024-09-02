@@ -1,4 +1,4 @@
-package com.globant.service.loggedInServices.orders;
+package com.globant.service.loggedInServices.orderBook;
 
 import com.globant.exceptions.OrderNotFoundException;
 import com.globant.model.currencies.CryptoCurrency;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BuyOrderService implements OrderService {
+public class BuyOrderBook implements OrderBook {
     private final Queue<BuyOrder> buyOrders = new LinkedList<>();
 
     @Override
