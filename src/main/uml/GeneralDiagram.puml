@@ -1,0 +1,105 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+package model {
+    class Transaction {
+        +cryptoCurrency
+        +amount
+        +price
+        +orderType
+    }
+
+    class User {
+        +uniqueID
+        +name
+        +email
+        +password
+        +userWallet
+
+    }
+
+    package currencies {
+        abstract class Currency {
+            +name
+            +symbol
+            +initialPrice
+            +getName()
+            +getPrice()
+            +setPrice()
+        }
+
+        class CryptoCurrency extends Currency {
+        }
+
+        class FiatCurrency extends Currency {
+        }
+    }
+
+    package orders {
+        abstract class Order {
+             +user
+             +crypto
+             +amount
+             +price
+        }
+
+        class BuyOrder extends Order {
+        }
+
+        class SellOrder extends Order {
+        }
+    }
+
+    package wallets {
+        abstract class Wallet {
+            +currencyBalances
+            +deliverCurrency(currency, amount)
+            +receiveCurrency(currency, amount)
+        }
+
+        class ExchangeWallet extends Wallet {
+        }
+
+        class UserWallet extends Wallet {
+            +transactionsList
+            +frozenBalancesMap
+            +saveTransaction(transaction)
+            +getTransactions()
+            +getFrozenCurrencies()
+            +frozeCurrency(Currency, BigDecimal)
+            +unfrozeCurrency()
+        }
+    }
+}
+
+package service {
+
+    class SessionService {
+        +usersMap
+        +createUser(name, email, password)
+        +login(email,password)
+    }
+
+    class ExchangeService {
+        +exchangeWallet
+        +depositFiat(user, amount)
+        +buyCrypto(cryptoString, amount, user)
+        +printUserBalance(user)
+        +placeBuyOrder(cryptoString, amount, price, userBuyer)
+        +placeSellOrder(cryptoString, amount, price, userSeller)
+        +getTransactions(user)
+    }
+}
+
+SessionService *--> User : has
+SessionService *--> ExchangeService : has
+ExchangeService *--> ExchangeWallet : has
+ExchangeService o--> Order : has
+User *--> UserWallet : has
+Wallet o--> Currency : has
+UserWallet o--> Transaction : has
+
+User "many"<--> "one" ExchangeService : used by
+
+@enduml
