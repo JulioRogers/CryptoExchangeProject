@@ -16,12 +16,9 @@ import java.util.Map;
  *
  * This class is used by logged-in users to perform exchange operations.
  */
-public class ExchangeController implements UserController {
-    private final View view;
+public class ExchangeController extends LoggedInUserController {
     private final Map<Integer, UserController> controllers = new HashMap<>();
-    public ExchangeController(ExchangeServiceFacade exchangeServiceFacade, View view, User user) {
-        this.view = view;
-        LoggedInUserController.initialize(exchangeServiceFacade,view,user);
+    public ExchangeController() {
         controllers.put(1, new DepositFiatController());
         controllers.put(2, new BuyCryptoController());
         controllers.put(3, new GetBalancesController());

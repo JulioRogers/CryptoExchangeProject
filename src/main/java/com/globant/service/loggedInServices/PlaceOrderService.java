@@ -10,18 +10,18 @@ import com.globant.model.orders.Order;
 import com.globant.model.orders.SellOrder;
 import com.globant.model.wallets.Wallet;
 import com.globant.service.Validation;
-import com.globant.service.loggedInServices.orders.BuyOrderService;
-import com.globant.service.loggedInServices.orders.SellOrderService;
+import com.globant.model.orderBook.BuyOrderBook;
+import com.globant.model.orderBook.SellOrderBook;
 
 import java.math.BigDecimal;
 
 public class PlaceOrderService {
-    private final SellOrderService sellOrderService;
-    private final BuyOrderService buyOrderService;
+    private final SellOrderBook sellOrderService;
+    private final BuyOrderBook buyOrderService;
     private final FiatCurrency fiat;
     public PlaceOrderService(FiatCurrency fiat) {
-        this.sellOrderService = new SellOrderService();
-        this.buyOrderService = new BuyOrderService();
+        this.sellOrderService = new SellOrderBook();
+        this.buyOrderService = new BuyOrderBook();
         this.fiat = fiat;
     }
 

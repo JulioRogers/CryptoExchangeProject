@@ -3,9 +3,10 @@ package com.globant.controller.loggedin;
 import com.globant.controller.UserController;
 import com.globant.exceptions.LogOutException;
 
-public class LogOutController implements UserController {
+public class LogOutController extends LoggedInUserController {
     @Override
     public void run() {
+        logOutUser();
         throw new LogOutException("Log Out successfully");
     }
 }

@@ -32,4 +32,12 @@ public class Transaction {
     public String getOrderType() {
         return orderType;
     }
+
+    @Override
+    public String toString() {
+        return "CryptoCurrency: " + cryptoCurrency.getName() +
+                ", Amount: " + amount +
+                ", Price: " + price +
+                ", Order Type: " + orderType;
+    }
 }
