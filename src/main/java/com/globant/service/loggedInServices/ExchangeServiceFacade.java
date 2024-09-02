@@ -12,7 +12,7 @@ import com.globant.service.Validation;
 import java.math.BigDecimal;
 
 public class ExchangeServiceFacade {
-    public final FiatCurrency fiatCurrency;
+    private final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
     private final PlaceOrderService placeOrder;
 
@@ -31,7 +31,7 @@ public class ExchangeServiceFacade {
         this.placeOrder = new PlaceOrderService(fiatCurrency);
     }
 
-    public void depositFiat(User user, BigDecimal amount){
+public void depositFiat(User user, BigDecimal amount){
         Deposit.execute(user, fiatCurrency, amount);
     }
 
