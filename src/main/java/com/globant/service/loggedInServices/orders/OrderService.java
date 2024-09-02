@@ -1,4 +1,4 @@
-package com.globant.service.orders;
+package com.globant.service.loggedInServices.orders;
 
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.orders.Order;

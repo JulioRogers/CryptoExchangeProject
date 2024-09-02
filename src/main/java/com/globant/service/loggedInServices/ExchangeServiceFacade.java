@@ -1,4 +1,4 @@
-package com.globant.service;
+package com.globant.service.loggedInServices;
 
 import com.globant.exceptions.InvalidCryptoException;
 import com.globant.model.User;
@@ -7,16 +7,17 @@ import com.globant.model.wallets.ExchangeWallet;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.currencies.FiatCurrency;
 import com.globant.model.wallets.UserWallet;
+import com.globant.service.Validation;
 
 import java.math.BigDecimal;
 
-public class ExchangeService {
-    public final FiatCurrency fiatCurrency;
+public class ExchangeServiceFacade {
+    private final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
     private final PlaceOrderService placeOrder;
 
 
-    public ExchangeService() {
+    public ExchangeServiceFacade() {
         exchangeWallet = new ExchangeWallet();
 
         CryptoCurrency bitcoin = new CryptoCurrency("Bitcoin","BTC", new BigDecimal("50000"));
@@ -30,7 +31,7 @@ public class ExchangeService {
         this.placeOrder = new PlaceOrderService(fiatCurrency);
     }
 
-    public void depositFiat(User user, BigDecimal amount){
+public void depositFiat(User user, BigDecimal amount){
         Deposit.execute(user, fiatCurrency, amount);
     }
 
@@ -43,7 +44,10 @@ public class ExchangeService {
         UserWallet userWallet = user.getWallet();
         userWallet.deliverCurrency(fiatCurrency, price);
         userWallet.receiveCurrency(crypto, amount);
-        exchangeWallet.deliverCurrency(crypto, amount);    }
+        exchangeWallet.deliverCurrency(crypto, amount);
+        BigDecimal newPrice = FluctuateCrypto.execute(crypto);
+        crypto.setPrice(newPrice);
+    }
 
     public String printUserBalance(User user) {
         return PrintBalance.execute(user);
@@ -71,5 +75,10 @@ public class ExchangeService {
 
     public String getTransactions(User user) {
         return GetTransactions.execute(user);
+    }
+
+    public BigDecimal getCryptoValue(String cryptoString) {
+        CryptoCurrency crypto = findCrypto(cryptoString);
+        return crypto.getPrice();
     }
 }

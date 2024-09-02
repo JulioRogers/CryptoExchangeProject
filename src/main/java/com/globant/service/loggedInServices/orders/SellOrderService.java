@@ -1,4 +1,4 @@
-package com.globant.service.orders;
+package com.globant.service.loggedInServices.orders;
 
 import com.globant.exceptions.OrderNotFoundException;
 import com.globant.model.currencies.CryptoCurrency;
