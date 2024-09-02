@@ -22,15 +22,21 @@ public abstract class LoggedInUserController implements UserController {
     protected static View view;
     protected static User user;
 
-    public static void initialize(ExchangeServiceFacade exchangeServiceFacade, View view, User user) {
+    public static void initialize(ExchangeServiceFacade exchangeServiceFacade, View view) {
         if (LoggedInUserController.exchangeServiceFacade != null ||
-                LoggedInUserController.view != null ||
-                LoggedInUserController.user != null) {
+                LoggedInUserController.view != null) {
             throw new RuntimeException("Attributes already set and cannot be reconfigured.");
         }
         LoggedInUserController.exchangeServiceFacade = exchangeServiceFacade;
         LoggedInUserController.view = view;
+    }
+
+    public static void logInUser(User user) {
         LoggedInUserController.user = user;
+    }
+
+    protected void logOutUser() {
+        LoggedInUserController.user = null;
     }
 
     public abstract void run();
