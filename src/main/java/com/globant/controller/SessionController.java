@@ -6,6 +6,10 @@ import com.globant.service.Session;
 import com.globant.service.loggedInServices.ExchangeServiceFacade;
 import com.globant.view.View;
 
+/**
+ * The {@code SessionController} class manages functionalities for no logged-in users.
+ * <b>Functionalities:</b> create user, log in and close app functionalities.
+ */
 public class SessionController {
     private final Session sessionService;
     private final View view;
