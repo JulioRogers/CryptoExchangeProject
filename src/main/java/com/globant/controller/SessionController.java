@@ -1,5 +1,6 @@
 package com.globant.controller;
 
+import com.globant.controller.loggedin.LoggedInUserController;
 import com.globant.exceptions.*;
 import com.globant.model.User;
 import com.globant.service.Session;
@@ -13,12 +14,10 @@ import com.globant.view.View;
 public class SessionController {
     private final Session sessionService;
     private final View view;
-    private final ExchangeServiceFacade exchangeServiceFacade;
 
     public SessionController(View view, Session sessionService) {
         this.view = view;
         this.sessionService = sessionService;
-        this.exchangeServiceFacade = new ExchangeServiceFacade();
     }
 
     public void createUser() {
@@ -52,7 +51,8 @@ public class SessionController {
         try{
             User loggedInUser = sessionService.login(email, password);
             view.showInfo("Login Successful");
-            ExchangeController exchangeController = new ExchangeController(exchangeServiceFacade, view, loggedInUser);
+            LoggedInUserController.logInUser(loggedInUser);
+            ExchangeController exchangeController = new ExchangeController();
             exchangeController.run();
         } catch (LogOutException e){
             view.showSuccessMessage(e.getMessage());
