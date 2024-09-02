@@ -5,6 +5,6 @@ public class GetTransactionsController extends LoggedInUserController{
 
     @Override
     public void run() {
-        view.showInfo(exchangeService.getTransactions(user));
+        view.showInfo(exchangeServiceFacade.getTransactions(user));
     }
 }

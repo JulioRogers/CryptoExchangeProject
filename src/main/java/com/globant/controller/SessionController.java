@@ -3,19 +3,18 @@ package com.globant.controller;
 import com.globant.exceptions.*;
 import com.globant.model.User;
 import com.globant.service.Session;
-import com.globant.service.loggedInServices.ExchangeService;
-import com.globant.service.SessionService;
+import com.globant.service.loggedInServices.ExchangeServiceFacade;
 import com.globant.view.View;
 
 public class SessionController {
     private final Session sessionService;
     private final View view;
-    private final ExchangeService exchangeService;
+    private final ExchangeServiceFacade exchangeServiceFacade;
 
     public SessionController(View view, Session sessionService) {
         this.view = view;
         this.sessionService = sessionService;
-        this.exchangeService = new ExchangeService();
+        this.exchangeServiceFacade = new ExchangeServiceFacade();
     }
 
     public void createUser() {
@@ -36,7 +35,7 @@ public class SessionController {
         try{
             User loggedInUser = sessionService.login(email, password);
             view.showInfo("Login Successful");
-            ExchangeController exchangeController = new ExchangeController(exchangeService, view, loggedInUser);
+            ExchangeController exchangeController = new ExchangeController(exchangeServiceFacade, view, loggedInUser);
             exchangeController.run();
         } catch (LogOutException e){
             view.showSuccessMessage(e.getMessage());

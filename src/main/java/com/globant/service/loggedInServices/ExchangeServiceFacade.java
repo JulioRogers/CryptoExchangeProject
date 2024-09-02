@@ -11,13 +11,13 @@ import com.globant.service.Validation;
 
 import java.math.BigDecimal;
 
-public class ExchangeService {
+public class ExchangeServiceFacade {
     public final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;
     private final PlaceOrderService placeOrder;
 
 
-    public ExchangeService() {
+    public ExchangeServiceFacade() {
         exchangeWallet = new ExchangeWallet();
 
         CryptoCurrency bitcoin = new CryptoCurrency("Bitcoin","BTC", new BigDecimal("50000"));

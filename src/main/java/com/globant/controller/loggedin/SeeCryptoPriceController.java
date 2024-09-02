@@ -10,7 +10,7 @@ public class SeeCryptoPriceController extends LoggedInUserController{
     public void run() {
         try {
             String cryptoString = view.getStringInput("Enter crypto name (BTC or ETH): ");
-            BigDecimal value = exchangeService.getCryptoValue(cryptoString);
+            BigDecimal value = exchangeServiceFacade.getCryptoValue(cryptoString);
             view.showInfo(value.toString());
         } catch (InvalidCryptoException e) {
             view.showError(e.getMessage());

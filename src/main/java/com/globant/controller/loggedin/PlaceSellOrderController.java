@@ -13,7 +13,7 @@ public class PlaceSellOrderController extends LoggedInUserController{
         BigDecimal amount = view.getBigDecimalInput("Enter amount: ");
         BigDecimal price = view.getBigDecimalInput("Enter price: ");
         try {
-            String message = exchangeService.placeSellOrder(cryptoString, amount, price, user);
+            String message = exchangeServiceFacade.placeSellOrder(cryptoString, amount, price, user);
             view.showSuccessMessage(message);
         } catch (InvalidCryptoException | InsufficientFundsException | NegativeAmountException e) {
             view.showError(e.getMessage());
