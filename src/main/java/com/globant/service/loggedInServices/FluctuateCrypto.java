@@ -6,7 +6,21 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
 
-public class FluctuateCrypto {
+/**
+ * The {@code FluctuateCrypto} class provides a mechanism to simulate the random fluctuation
+ * of cryptocurrency prices. It uses a random percentage to adjust the current price of
+ * a cryptocurrency.
+ *
+ * <p>Key points:</p>
+ * <ul>
+ *   <li>Price fluctuations are randomized within a small range (up to ±10%).</li>
+ *   <li>The resulting price is rounded to two decimal places.</li>
+ * </ul>
+ *
+ * <p>This class cannot be instantiated directly due to its private constructor.</p>
+ */
+
+ public class FluctuateCrypto {
     CryptoCurrency crypto;
 
     private FluctuateCrypto(){}
