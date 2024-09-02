@@ -32,7 +32,20 @@ public class SessionController {
             view.showError(e.getMessage());
         }
     }
-
+    /**
+     * This {@code login} method attempts to log in using the {@code sessionService}.
+     *  If the login is successful, a new {@code ExchangeController} is created for the logged-in user,
+     *  and the logged-in process is initiated. By this way, system allows multiple users by creating
+     *  a new exchange controller instance for each user.
+     *
+     * <p>Exceptions handled:</p>
+     * <ul>
+     *   <li>{@code LogOutException} - Thrown when the user decides to log out during the login process.</li>
+     *   <li>{@code InvalidEmailFormatException} - Thrown when the email format is incorrect.</li>
+     *   <li>{@code IncorrectPasswordException} - Thrown when the password does not match the account.</li>
+     *   <li>{@code UnknownAccountException} - Thrown when the account does not exist.</li>
+     * </ul>
+     */
     public void login() {
         String email = view.getStringInput("Enter email: ");
         String password = view.getStringInput("Enter password: ");
