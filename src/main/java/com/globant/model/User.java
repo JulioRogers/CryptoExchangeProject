@@ -1,6 +1,9 @@
 package com.globant.model;
 
+import com.globant.model.currencies.Currency;
 import com.globant.model.wallets.UserWallet;
+
+import java.util.Objects;
 
 public class User {
     private final Integer uniqueID;
@@ -27,5 +30,22 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(uniqueID  ,user.uniqueID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uniqueID);
     }
 }
