@@ -10,8 +10,8 @@ import com.globant.model.orders.Order;
 import com.globant.model.orders.SellOrder;
 import com.globant.model.wallets.Wallet;
 import com.globant.service.Validation;
-import com.globant.service.loggedInServices.orderBook.BuyOrderBook;
-import com.globant.service.loggedInServices.orderBook.SellOrderBook;
+import com.globant.model.orderBook.BuyOrderBook;
+import com.globant.model.orderBook.SellOrderBook;
 
 import java.math.BigDecimal;
 

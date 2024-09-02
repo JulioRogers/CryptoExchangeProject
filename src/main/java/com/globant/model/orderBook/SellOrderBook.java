@@ -1,13 +1,9 @@
-package com.globant.service.loggedInServices.orderBook;
+package com.globant.model.orderBook;
 
-import com.globant.exceptions.OrderNotFoundException;
 import com.globant.model.currencies.CryptoCurrency;
-import com.globant.model.orders.Order;
 import com.globant.model.orders.SellOrder;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class SellOrderBook extends OrderBook<SellOrder> {
 
