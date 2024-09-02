@@ -11,6 +11,28 @@ import com.globant.service.Validation;
 
 import java.math.BigDecimal;
 
+/**
+ * The {@code ExchangeServiceFacade} class provides a simplified interface to manage
+ * various cryptocurrency exchange operations. It encapsulates the complexity of
+ * interacting with multiple services, making it easier for controllers to perform
+ * actions such as buying cryptocurrencies, depositing fiat, and placing orders.
+ *
+ * <p>The multiple services are designed as utility with static methods to avoid the
+ * need for instantiating objects. The main method, {@code execute}, triggers each
+ * service process.</p>
+ *
+ * <p>This class almost acts like a facade that coordinates various services related to
+ * cryptocurrency transactions, ensuring that users can interact with the exchange
+ * system effectively and securely. </p>
+ *
+ * <p>Key attributes include:</p>
+ * <ul>
+ *   <li>{@code fiatCurrency} - Represents the fiat currency (e.g., USD) used in the exchange.</li>
+ *   <li>{@code exchangeWallet} - The wallet that holds the exchange's cryptocurrency assets.</li>
+ *   <li>{@code placeOrder} - The service responsible for placing buy and sell orders.</li>
+ * </ul>
+ *
+ */
 public class ExchangeServiceFacade {
     private final FiatCurrency fiatCurrency;
     private final ExchangeWallet exchangeWallet;

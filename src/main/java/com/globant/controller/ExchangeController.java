@@ -8,6 +8,14 @@ import com.globant.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The {@code ExchangeController} class handles operations related to exchanging cryptocurrencies.
+ * It acts as a central point for interacting with different services like buying, selling,
+ * and managing cryptocurrency assets. This controller uses the Facade design pattern
+ * to make it easier to interact with the system's services.
+ *
+ * This class is used by logged-in users to perform exchange operations.
+ */
 public class ExchangeController implements UserController {
     private final View view;
     private final Map<Integer, UserController> controllers = new HashMap<>();
