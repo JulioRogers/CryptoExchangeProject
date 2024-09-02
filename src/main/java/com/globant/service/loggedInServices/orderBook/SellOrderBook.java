@@ -9,25 +9,13 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class SellOrderBook implements OrderBook {
-    private final Queue<SellOrder> sellOrders = new LinkedList<>();
+public class SellOrderBook extends OrderBook<SellOrder> {
 
     @Override
-    public void addOrder(Order order) {
-        if (order instanceof SellOrder) {
-            sellOrders.offer((SellOrder) order);
+    protected SellOrder matchSearch(BigDecimal amount, BigDecimal price, CryptoCurrency crypto, SellOrder sellOrder) {
+        if (sellOrder.getAmount().compareTo(amount) == 0 && sellOrder.getPrice().compareTo(price) <= 0 && sellOrder.getCrypto().getSymbol().equals(crypto.getSymbol())) {
+            return sellOrder;
         }
+        return null;
     }
-
-    @Override
-    public Order getOrder(BigDecimal amount, BigDecimal price, CryptoCurrency crypto) {
-        for (SellOrder sellOrder : sellOrders) {
-            if (sellOrder.getAmount().compareTo(amount) == 0 && sellOrder.getPrice().compareTo(price) <=0 && sellOrder.getCrypto().getSymbol().equals(crypto.getSymbol())) {
-                sellOrders.remove(sellOrder);
-                return sellOrder;
-            }
-        }
-        throw new OrderNotFoundException("No sell order found");
-    }
-
 }
