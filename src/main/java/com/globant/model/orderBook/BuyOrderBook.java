@@ -1,6 +1,5 @@
-package com.globant.service.loggedInServices.orderBook;
+package com.globant.model.orderBook;
 
-import com.globant.exceptions.OrderNotFoundException;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.orders.BuyOrder;
 
