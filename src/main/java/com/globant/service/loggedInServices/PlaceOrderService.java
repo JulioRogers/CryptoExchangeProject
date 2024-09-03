@@ -9,7 +9,6 @@ import com.globant.model.orders.BuyOrder;
 import com.globant.model.orders.Order;
 import com.globant.model.orders.SellOrder;
 import com.globant.model.wallets.UserWallet;
-import com.globant.model.wallets.Wallet;
 import com.globant.service.Validation;
 import com.globant.model.orderBook.BuyOrderBook;
 import com.globant.model.orderBook.SellOrderBook;
@@ -26,7 +25,7 @@ public class PlaceOrderService {
         this.fiat = fiat;
     }
 
-    public String sellOrder(CryptoCurrency crypto, BigDecimal amount, BigDecimal price, User userSeller, Wallet exchangeWallet){
+    public String sellOrder(CryptoCurrency crypto, BigDecimal amount, BigDecimal price, User userSeller){
         Validation.checkCurrencyFunds(amount, crypto, userSeller.getWallet());
         UserWallet userSellerWallet = userSeller.getWallet();
         try {
@@ -55,7 +54,7 @@ public class PlaceOrderService {
         }
     }
 
-    public String buyOrder(CryptoCurrency crypto, BigDecimal amount, BigDecimal price, User userBuyer, Wallet exchangeWallet) {
+    public String buyOrder(CryptoCurrency crypto, BigDecimal amount, BigDecimal price, User userBuyer) {
         Validation.checkCurrencyFunds(price, fiat, userBuyer.getWallet());
         UserWallet userBuyerWallet = userBuyer.getWallet();
         try {
