@@ -20,6 +20,9 @@ CryptoExchangeProject is a Globant 2024 bootcamp project. It allows users to buy
    cd CryptoExchangeProject
    ```
 ### Downdload the last version .zip file 
+1. **Go to Releases**:
+   - Download the V2.0.0 .zip
+
 ### Setup in IntelliJ IDEA
 1. **Open the project in IntelliJ IDEA**:
    - Select `File > Open...` and choose the project directory.
