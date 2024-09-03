@@ -53,8 +53,8 @@ public class ExchangeServiceFacade {
         this.placeOrder = new PlaceOrderService(fiatCurrency);
     }
 
-public void depositFiat(User user, BigDecimal amount){
-        Deposit.execute(user, fiatCurrency, amount);
+public BigDecimal depositFiat(User user, BigDecimal amount){
+        return Deposit.execute(user, fiatCurrency, amount);
     }
 
     public void buyCrypto(String cryptoString, BigDecimal amount, User user) {

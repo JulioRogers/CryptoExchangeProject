@@ -10,9 +10,10 @@ public class Deposit {
 
     private Deposit(){}
 
-    public static void execute(User user, FiatCurrency fiatCurrency, BigDecimal amount) {
+    public static BigDecimal execute(User user, FiatCurrency fiatCurrency, BigDecimal amount) {
         amountValidation(amount);
         user.getWallet().receiveCurrency(fiatCurrency, amount);
+        return user.getWallet().getWalletBalance(fiatCurrency);
     }
 
 
