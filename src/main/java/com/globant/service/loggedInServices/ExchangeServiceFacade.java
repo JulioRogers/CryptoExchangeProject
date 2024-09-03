@@ -7,6 +7,7 @@ import com.globant.model.wallets.ExchangeWallet;
 import com.globant.model.currencies.CryptoCurrency;
 import com.globant.model.currencies.FiatCurrency;
 import com.globant.model.wallets.UserWallet;
+import com.globant.service.CryptoFluctuator;
 import com.globant.service.Validation;
 
 import java.math.BigDecimal;
@@ -38,7 +39,6 @@ public class ExchangeServiceFacade {
     private final ExchangeWallet exchangeWallet;
     private final PlaceOrderService placeOrder;
 
-
     public ExchangeServiceFacade() {
         exchangeWallet = new ExchangeWallet();
 
@@ -51,6 +51,8 @@ public class ExchangeServiceFacade {
         this.fiatCurrency = usd;
 
         this.placeOrder = new PlaceOrderService(fiatCurrency);
+        CryptoFluctuator cryptoFluctuator = new CryptoFluctuator(exchangeWallet);
+        cryptoFluctuator.startFluctuation();
     }
 
 public BigDecimal depositFiat(User user, BigDecimal amount){
@@ -67,8 +69,8 @@ public BigDecimal depositFiat(User user, BigDecimal amount){
         userWallet.deliverCurrency(fiatCurrency, price);
         userWallet.receiveCurrency(crypto, amount);
         exchangeWallet.deliverCurrency(crypto, amount);
-        BigDecimal newPrice = FluctuateCrypto.execute(crypto);
-        crypto.setPrice(newPrice);
+        //BigDecimal newPrice = FluctuateCrypto.execute(crypto);  Deprecated fluctuate crypto price way
+        //crypto.setPrice(newPrice);
     }
 
     public String printUserBalance(User user) {
