@@ -11,8 +11,8 @@ public class DepositFiatController extends LoggedInUserController {
     public void run() {
         BigDecimal amount = view.getBigDecimalInput("Enter amount: ");
         try{
-            exchangeServiceFacade.depositFiat(user, amount);
-            view.showSuccessMessage("Deposit successful");
+            BigDecimal balance = exchangeServiceFacade.depositFiat(user, amount);
+            view.showSuccessMessage("Deposit successful, your new balance is: " + balance.toString());
         } catch (NegativeAmountException e){
             view.showError(e.getMessage());
         }

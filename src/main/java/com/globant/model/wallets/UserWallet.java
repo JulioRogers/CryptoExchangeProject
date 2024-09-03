@@ -9,6 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The UserWallet class has a frozenBalances map which is used to manage and track the amounts of currency
+ * that are temporarily frozen when a user places an order to buy or sell a cryptocurrency. This gives a better
+ * visibility and control of the user's available funds while ensuring that committed funds are not accidentally
+ * used for other transactions.
+ */
 public class UserWallet extends Wallet {
     private final List<Transaction> transactions = new ArrayList<>();
     private final Integer userId;
