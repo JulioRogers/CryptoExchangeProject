@@ -77,12 +77,12 @@ public void depositFiat(User user, BigDecimal amount){
 
     public String placeBuyOrder(String cryptoString, BigDecimal amount, BigDecimal price, User userBuyer) {
         CryptoCurrency crypto = findCrypto(cryptoString);
-        return placeOrder.buyOrder(crypto, amount, price, userBuyer, exchangeWallet);
+        return placeOrder.buyOrder(crypto, amount, price, userBuyer);
     }
 
     public String placeSellOrder(String cryptoString, BigDecimal amount, BigDecimal price, User userSeller) {
         CryptoCurrency crypto = findCrypto(cryptoString);
-        return placeOrder.sellOrder(crypto, amount, price,userSeller, exchangeWallet);
+        return placeOrder.sellOrder(crypto, amount, price,userSeller);
     }
 
     private CryptoCurrency findCrypto(String cryptoString) {
