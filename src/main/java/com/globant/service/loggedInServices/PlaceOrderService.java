@@ -8,6 +8,7 @@ import com.globant.model.currencies.FiatCurrency;
 import com.globant.model.orders.BuyOrder;
 import com.globant.model.orders.Order;
 import com.globant.model.orders.SellOrder;
+import com.globant.model.wallets.UserWallet;
 import com.globant.model.wallets.Wallet;
 import com.globant.service.Validation;
 import com.globant.model.orderBook.BuyOrderBook;
@@ -27,25 +28,27 @@ public class PlaceOrderService {
 
     public String sellOrder(CryptoCurrency crypto, BigDecimal amount, BigDecimal price, User userSeller, Wallet exchangeWallet){
         Validation.checkCurrencyFunds(amount, crypto, userSeller.getWallet());
+        UserWallet userSellerWallet = userSeller.getWallet();
         try {
             Order order = buyOrderService.getOrder(amount, price, crypto);
             User userBuyer = order.getUser();
+            UserWallet userBuyerWallet = userBuyer.getWallet();
             BigDecimal change = order.getPrice().subtract(price);
-            userSeller.getWallet().deliverCurrency(crypto, amount);
-            userSeller.getWallet().receiveCurrency(fiat, price);
-            userBuyer.getWallet().receiveCurrency(crypto, amount);
-            userBuyer.getWallet().unfrozeCurrency(fiat, price);
-            userBuyer.getWallet().unfrozeCurrency(fiat, change);
-            userBuyer.getWallet().receiveCurrency(fiat, change);
-            //Create Transaction
+            userSellerWallet.deliverCurrency(crypto, amount);
+            userSellerWallet.receiveCurrency(fiat, price);
+            userBuyerWallet.receiveCurrency(crypto, amount);
+            userBuyerWallet.unfrozeCurrency(fiat, price);
+            userBuyerWallet.unfrozeCurrency(fiat, change);
+            userBuyerWallet.receiveCurrency(fiat, change);
+
             Transaction sellTransaction = new Transaction(crypto, amount, price, "Sell");
-            userSeller.getWallet().saveTransaction(sellTransaction);
+            userSellerWallet.saveTransaction(sellTransaction);
             Transaction buyTransaction = new Transaction(crypto, amount, price, "Buy");
-            userBuyer.getWallet().saveTransaction(buyTransaction);
+            userBuyerWallet.saveTransaction(buyTransaction);
             return "A matching buy order was found and the sale was made.";
         } catch (OrderNotFoundException e) {
-            userSeller.getWallet().deliverCurrency(crypto, amount);
-            userSeller.getWallet().frozeCurrency(crypto, amount);
+            userSellerWallet.deliverCurrency(crypto, amount);
+            userSellerWallet.frozeCurrency(crypto, amount);
             SellOrder sellOrder = new SellOrder(userSeller, crypto, amount, price);
             sellOrderService.addOrder(sellOrder);
             return "Sell order made.";
@@ -54,23 +57,25 @@ public class PlaceOrderService {
 
     public String buyOrder(CryptoCurrency crypto, BigDecimal amount, BigDecimal price, User userBuyer, Wallet exchangeWallet) {
         Validation.checkCurrencyFunds(price, fiat, userBuyer.getWallet());
+        UserWallet userBuyerWallet = userBuyer.getWallet();
         try {
             Order order = sellOrderService.getOrder(amount, price, crypto);
             User userSeller = order.getUser();
+            UserWallet userSellerWallet = userSeller.getWallet();
             BigDecimal sellPrice = order.getPrice();
-            userBuyer.getWallet().deliverCurrency(fiat, sellPrice);
-            userBuyer.getWallet().receiveCurrency(crypto, amount);
-            userSeller.getWallet().receiveCurrency(fiat, sellPrice);
-            userSeller.getWallet().unfrozeCurrency(crypto, amount);
+            userBuyerWallet.deliverCurrency(fiat, sellPrice);
+            userBuyerWallet.receiveCurrency(crypto, amount);
+            userSellerWallet.receiveCurrency(fiat, sellPrice);
+            userSellerWallet.unfrozeCurrency(crypto, amount);
             //Create Transaction
             Transaction sellTransaction = new Transaction(crypto, amount, sellPrice, "Sell");
-            userSeller.getWallet().saveTransaction(sellTransaction);
+            userSellerWallet.saveTransaction(sellTransaction);
             Transaction buyTransaction = new Transaction(crypto, amount, sellPrice, "Buy");
-            userBuyer.getWallet().saveTransaction(buyTransaction);
+            userBuyerWallet.saveTransaction(buyTransaction);
             return "A matching sell order was found and the purchase was made.";
         } catch (OrderNotFoundException e) {
-            userBuyer.getWallet().deliverCurrency(fiat, price);
-            userBuyer.getWallet().frozeCurrency(fiat, price);
+            userBuyerWallet.deliverCurrency(fiat, price);
+            userBuyerWallet.frozeCurrency(fiat, price);
             BuyOrder buyOrder = new BuyOrder(userBuyer, crypto, amount, price);
             buyOrderService.addOrder(buyOrder);
             return "Buy order made.";
