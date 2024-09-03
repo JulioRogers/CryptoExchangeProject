@@ -4,7 +4,6 @@ import com.globant.controller.loggedin.LoggedInUserController;
 import com.globant.exceptions.*;
 import com.globant.model.User;
 import com.globant.service.Session;
-import com.globant.service.loggedInServices.ExchangeServiceFacade;
 import com.globant.view.View;
 
 /**

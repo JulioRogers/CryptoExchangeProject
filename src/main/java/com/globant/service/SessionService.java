@@ -6,7 +6,6 @@ import com.globant.exceptions.InvalidEmailFormatException;
 import com.globant.model.User;
 import com.globant.exceptions.UnknownAccountException;
 
-import java.security.Provider;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;

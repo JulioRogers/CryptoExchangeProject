@@ -1,6 +1,5 @@
 package com.globant.controller.loggedin;
 
-import com.globant.controller.UserController;
 import com.globant.exceptions.LogOutException;
 
 public class LogOutController extends LoggedInUserController {
