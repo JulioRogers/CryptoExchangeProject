@@ -10,7 +10,7 @@ CryptoExchangeProject is a Globant 2024 bootcamp project. It allows users to buy
 
 ## Installation
 
-### Clone the repository
+### Option 1: Clone the repository
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/yourusername/CryptoExchangeProject.git
@@ -19,7 +19,7 @@ CryptoExchangeProject is a Globant 2024 bootcamp project. It allows users to buy
    ```bash
    cd CryptoExchangeProject
    ```
-### Downdload the last version .zip file 
+### Option 2: Downdload the last version .zip file 
 1. **Go to Releases**:
    - Download the [last version V3.0.0](https://github.com/JulioRogers/CryptoExchangeProject/releases/tag/v3.0.0)
 
@@ -66,4 +66,9 @@ Out-of-scope implementations will be carried out in a forked repository. Future 
 - **Telegram Chatbot Integration**: Adapt the view for use with a Telegram chatbot.
 - **Advanced Price Fluctuation Features**: Implement more sophisticated logic algorithm for price fluctuations.
 - **Advanced Selling Features**: Allow users to specify a maximum quantity to sell and set a price per unit of currency.
+
+## Acknowledgments
+
+Thanks to Globant bootcamp, I've learned OOP and Java for first time, and it has strengthened my passion for backend development. 
+Before, I explored Python for AI and Solidity for blockchain, but through this experience, I've found a surprising preference for Java even more than Python, which I've used for four years.
 
